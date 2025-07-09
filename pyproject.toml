@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "commentservice"
+version = "0.0.1"
+description = "comment-service for esclient"
+package-mode = false
+authors = ["esclient"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+grpcio-reflection = "^1.72.1"
+pydantic = "^2.11.7"
+pydantic-settings = "^2.10.1"
+psycopg2-binary = "^2.9.10"
+
+[tool.poetry.group.dev.dependencies]
+grpcio = "^1.72.1"
+grpcio-tools = "^1.72.1"
+protobuf = "^6.31.1"
+
+[tool.poetry.scripts]
+run-server = "commentservice.server:serve"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
