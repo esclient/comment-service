@@ -24,17 +24,23 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rcomment.proto\x12\x07\x63omment\"G\n\x14\x43reateCommentRequest\x12\x0e\n\x06mod_id\x18\x01 \x01(\x03\x12\x11\n\tauthor_id\x18\x02 \x01(\x03\x12\x0c\n\x04text\x18\x03 \x01(\t\"+\n\x15\x43reateCommentResponse\x12\x12\n\ncomment_id\x18\x01 \x01(\x03\x32`\n\x0e\x43ommentService\x12N\n\rCreateComment\x12\x1d.comment.CreateCommentRequest\x1a\x1e.comment.CreateCommentResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rcomment.proto\x12\x07\x63omment\"J\n\x07\x43omment\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x11\n\tauthor_id\x18\x02 \x01(\x03\x12\x0c\n\x04text\x18\x03 \x01(\t\x12\x12\n\ncreated_at\x18\x04 \x01(\x03\"G\n\x14\x43reateCommentRequest\x12\x0e\n\x06mod_id\x18\x01 \x01(\x03\x12\x11\n\tauthor_id\x18\x02 \x01(\x03\x12\x0c\n\x04text\x18\x03 \x01(\t\"+\n\x15\x43reateCommentResponse\x12\x12\n\ncomment_id\x18\x01 \x01(\x03\"$\n\x12GetCommentsRequest\x12\x0e\n\x06mod_id\x18\x01 \x01(\x03\"I\n\x13GetCommentsResponse\x12\x0e\n\x06mod_id\x18\x01 \x01(\x03\x12\"\n\x08\x63omments\x18\x02 \x03(\x0b\x32\x10.comment.Comment2\xaa\x01\n\x0e\x43ommentService\x12N\n\rCreateComment\x12\x1d.comment.CreateCommentRequest\x1a\x1e.comment.CreateCommentResponse\x12H\n\x0bGetComments\x12\x1b.comment.GetCommentsRequest\x1a\x1c.comment.GetCommentsResponseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'comment_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_CREATECOMMENTREQUEST']._serialized_start=26
-  _globals['_CREATECOMMENTREQUEST']._serialized_end=97
-  _globals['_CREATECOMMENTRESPONSE']._serialized_start=99
-  _globals['_CREATECOMMENTRESPONSE']._serialized_end=142
-  _globals['_COMMENTSERVICE']._serialized_start=144
-  _globals['_COMMENTSERVICE']._serialized_end=240
+  _globals['_COMMENT']._serialized_start=26
+  _globals['_COMMENT']._serialized_end=100
+  _globals['_CREATECOMMENTREQUEST']._serialized_start=102
+  _globals['_CREATECOMMENTREQUEST']._serialized_end=173
+  _globals['_CREATECOMMENTRESPONSE']._serialized_start=175
+  _globals['_CREATECOMMENTRESPONSE']._serialized_end=218
+  _globals['_GETCOMMENTSREQUEST']._serialized_start=220
+  _globals['_GETCOMMENTSREQUEST']._serialized_end=256
+  _globals['_GETCOMMENTSRESPONSE']._serialized_start=258
+  _globals['_GETCOMMENTSRESPONSE']._serialized_end=331
+  _globals['_COMMENTSERVICE']._serialized_start=334
+  _globals['_COMMENTSERVICE']._serialized_end=504
 # @@protoc_insertion_point(module_scope)
