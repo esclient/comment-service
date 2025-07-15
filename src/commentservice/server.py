@@ -17,7 +17,7 @@ def serve():
         reflection.SERVICE_NAME,
     )
     reflection.enable_server_reflection(SERVICE_NAMES, server)
-    
+
     server.add_insecure_port(f"{settings.host}:{settings.port}")
     server.start()
     print(f"gRPC server listening on {settings.host}:{settings.port}")

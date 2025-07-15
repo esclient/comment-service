@@ -2,7 +2,7 @@
 name = "commentservice"
 version = "0.0.1"
 description = "comment-service for esclient"
-package-mode = false
+package-mode = true
 authors = ["esclient"]
 readme = "README.md"
 
