@@ -1,4 +1,4 @@
-from commentservice.repository.delete_comment import delete_comments as repo_delete_comments
+from commentservice.repository.delete_comment import delete_comment as repo_delete_comment
 
-def delete_comments(comments_id: int) -> int:
-    return repo_delete_comments(comments_id)
+def delete_comment(comment_id: int) -> int:
+    return repo_delete_comment(comment_id)
