@@ -6,8 +6,7 @@ def delete_comment(comment_id: int) -> int:
     try:
         with conn.cursor() as cur:
 
-            cur.execute
-            (
+            cur.execute(
                 """
                 SELECT *
                 FROM comments
@@ -28,6 +27,7 @@ def delete_comment(comment_id: int) -> int:
                 (comment_id,)
                 )
                 success = True
+                conn.commit()
                 return success
             
             else:
