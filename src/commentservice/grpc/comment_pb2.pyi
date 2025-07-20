@@ -47,3 +47,15 @@ class GetCommentsResponse(_message.Message):
     mod_id: int
     comments: _containers.RepeatedCompositeFieldContainer[Comment]
     def __init__(self, mod_id: _Optional[int] = ..., comments: _Optional[_Iterable[_Union[Comment, _Mapping]]] = ...) -> None: ...
+
+class DeleteCommentRequest(_message.Message):
+    __slots__ = ("comment_id",)
+    COMMENT_ID_FIELD_NUMBER: _ClassVar[int]
+    comment_id: int
+    def __init__(self, comment_id: _Optional[int] = ...) -> None: ...
+
+class DeleteCommentResponse(_message.Message):
+    __slots__ = ("success",)
+    SUCCESS_FIELD_NUMBER: _ClassVar[int]
+    success: bool
+    def __init__(self, success: bool = ...) -> None: ...
