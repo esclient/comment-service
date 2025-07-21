@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rcomment.proto\x12\x07\x63omment\"J\n\x07\x43omment\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x11\n\tauthor_id\x18\x02 \x01(\x03\x12\x0c\n\x04text\x18\x03 \x01(\t\x12\x12\n\ncreated_at\x18\x04 \x01(\x03\"G\n\x14\x43reateCommentRequest\x12\x0e\n\x06mod_id\x18\x01 \x01(\x03\x12\x11\n\tauthor_id\x18\x02 \x01(\x03\x12\x0c\n\x04text\x18\x03 \x01(\t\"+\n\x15\x43reateCommentResponse\x12\x12\n\ncomment_id\x18\x01 \x01(\x03\"$\n\x12GetCommentsRequest\x12\x0e\n\x06mod_id\x18\x01 \x01(\x03\"I\n\x13GetCommentsResponse\x12\x0e\n\x06mod_id\x18\x01 \x01(\x03\x12\"\n\x08\x63omments\x18\x02 \x03(\x0b\x32\x10.comment.Comment2\xaa\x01\n\x0e\x43ommentService\x12N\n\rCreateComment\x12\x1d.comment.CreateCommentRequest\x1a\x1e.comment.CreateCommentResponse\x12H\n\x0bGetComments\x12\x1b.comment.GetCommentsRequest\x1a\x1c.comment.GetCommentsResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rcomment.proto\x12\x07\x63omment\"J\n\x07\x43omment\x12\n\n\x02id\x18\x01 \x01(\x03\x12\x11\n\tauthor_id\x18\x02 \x01(\x03\x12\x0c\n\x04text\x18\x03 \x01(\t\x12\x12\n\ncreated_at\x18\x04 \x01(\x03\"G\n\x14\x43reateCommentRequest\x12\x0e\n\x06mod_id\x18\x01 \x01(\x03\x12\x11\n\tauthor_id\x18\x02 \x01(\x03\x12\x0c\n\x04text\x18\x03 \x01(\t\"+\n\x15\x43reateCommentResponse\x12\x12\n\ncomment_id\x18\x01 \x01(\x03\"$\n\x12GetCommentsRequest\x12\x0e\n\x06mod_id\x18\x01 \x01(\x03\"I\n\x13GetCommentsResponse\x12\x0e\n\x06mod_id\x18\x01 \x01(\x03\x12\"\n\x08\x63omments\x18\x02 \x03(\x0b\x32\x10.comment.Comment\"*\n\x14\x44\x65leteCommentRequest\x12\x12\n\ncomment_id\x18\x01 \x01(\x03\"(\n\x15\x44\x65leteCommentResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x32\xfa\x01\n\x0e\x43ommentService\x12N\n\rCreateComment\x12\x1d.comment.CreateCommentRequest\x1a\x1e.comment.CreateCommentResponse\x12H\n\x0bGetComments\x12\x1b.comment.GetCommentsRequest\x1a\x1c.comment.GetCommentsResponse\x12N\n\rDeleteComment\x12\x1d.comment.DeleteCommentRequest\x1a\x1e.comment.DeleteCommentResponseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -41,6 +41,10 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_GETCOMMENTSREQUEST']._serialized_end=256
   _globals['_GETCOMMENTSRESPONSE']._serialized_start=258
   _globals['_GETCOMMENTSRESPONSE']._serialized_end=331
-  _globals['_COMMENTSERVICE']._serialized_start=334
-  _globals['_COMMENTSERVICE']._serialized_end=504
+  _globals['_DELETECOMMENTREQUEST']._serialized_start=333
+  _globals['_DELETECOMMENTREQUEST']._serialized_end=375
+  _globals['_DELETECOMMENTRESPONSE']._serialized_start=377
+  _globals['_DELETECOMMENTRESPONSE']._serialized_end=417
+  _globals['_COMMENTSERVICE']._serialized_start=420
+  _globals['_COMMENTSERVICE']._serialized_end=670
 # @@protoc_insertion_point(module_scope)

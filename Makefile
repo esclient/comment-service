@@ -1,4 +1,4 @@
-PROTO_TAG ?= v0.0.6
+PROTO_TAG ?= v0.0.7
 PROTO_NAME := comment.proto
 
 TMP_DIR := .proto
