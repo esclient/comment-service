@@ -7,16 +7,18 @@ from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 DESCRIPTOR: _descriptor.FileDescriptor
 
 class Comment(_message.Message):
-    __slots__ = ("id", "author_id", "text", "created_at")
+    __slots__ = ("id", "author_id", "text", "created_at", "edited_at")
     ID_FIELD_NUMBER: _ClassVar[int]
     AUTHOR_ID_FIELD_NUMBER: _ClassVar[int]
     TEXT_FIELD_NUMBER: _ClassVar[int]
     CREATED_AT_FIELD_NUMBER: _ClassVar[int]
+    EDITED_AT_FIELD_NUMBER: _ClassVar[int]
     id: int
     author_id: int
     text: str
     created_at: int
-    def __init__(self, id: _Optional[int] = ..., author_id: _Optional[int] = ..., text: _Optional[str] = ..., created_at: _Optional[int] = ...) -> None: ...
+    edited_at: int
+    def __init__(self, id: _Optional[int] = ..., author_id: _Optional[int] = ..., text: _Optional[str] = ..., created_at: _Optional[int] = ..., edited_at: _Optional[int] = ...) -> None: ...
 
 class CreateCommentRequest(_message.Message):
     __slots__ = ("mod_id", "author_id", "text")
@@ -55,6 +57,20 @@ class DeleteCommentRequest(_message.Message):
     def __init__(self, comment_id: _Optional[int] = ...) -> None: ...
 
 class DeleteCommentResponse(_message.Message):
+    __slots__ = ("success",)
+    SUCCESS_FIELD_NUMBER: _ClassVar[int]
+    success: bool
+    def __init__(self, success: bool = ...) -> None: ...
+
+class EditCommentRequest(_message.Message):
+    __slots__ = ("comment_id", "text")
+    COMMENT_ID_FIELD_NUMBER: _ClassVar[int]
+    TEXT_FIELD_NUMBER: _ClassVar[int]
+    comment_id: int
+    text: str
+    def __init__(self, comment_id: _Optional[int] = ..., text: _Optional[str] = ...) -> None: ...
+
+class EditCommentResponse(_message.Message):
     __slots__ = ("success",)
     SUCCESS_FIELD_NUMBER: _ClassVar[int]
     success: bool
