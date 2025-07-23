@@ -1,3 +1,5 @@
+include .env
+
 PROTO_TAG ?= v0.0.8
 PROTO_NAME := comment.proto
 
@@ -28,6 +30,17 @@ FIX_IMPORTS = \
       sed -i 's/^import \(.*_pb2\)/from . import \1/' $$f; \
     done
 endif
+
+docker-build:
+	docker build --build-arg PORT=$(PORT) -t comment-dev .
+
+run: docker-build
+	docker run --rm -it \
+		--env-file .env \
+		-p $(PORT):$(PORT) \
+		-v $(CURDIR):/app \
+		-e WATCHFILES_FORCE_POLLING=true \
+		comment-dev
 
 clean:
 	$(RM)

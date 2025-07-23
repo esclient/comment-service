@@ -1,28 +1,33 @@
-[tool.poetry]
+[tool.pdm]
+distribution = true
+
+[project]
 name = "commentservice"
 version = "0.0.1"
 description = "comment-service for esclient"
-package-mode = true
-authors = ["esclient"]
+authors = [
+    {name = "esclient"},
+]
+dependencies = [
+    "grpcio-reflection<2.0.0,>=1.72.1",
+    "pydantic<3.0.0,>=2.11.7",
+    "pydantic-settings<3.0.0,>=2.10.1",
+    "psycopg2-binary<3.0.0,>=2.9.10",
+    "grpcio-tools<2.0.0,>=1.73.1",
+    "watchfiles<2.0.0,>=1.1.0",
+]
+requires-python = "<4.0,>=3.10"
 readme = "README.md"
+license = {text = "MIT"}
 
-[tool.poetry.dependencies]
-python = "^3.10"
-grpcio-reflection = "^1.72.1"
-pydantic = "^2.11.7"
-pydantic-settings = "^2.10.1"
-psycopg2-binary = "^2.9.10"
-grpcio-tools = "^1.73.1"
 
-[tool.poetry.group.dev.dependencies]
-grpcio = "^1.72.1"
-grpcio-tools = "^1.73.1"
-protobuf = "^6.31.1"
-pytest = "^8.4.1"
-
-[tool.poetry.scripts]
+[project.scripts]
 run-server = "commentservice.server:serve"
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[dependency-groups]
+dev = [
+    "grpcio<2.0.0,>=1.72.1",
+    "grpcio-tools<2.0.0,>=1.73.1",
+    "protobuf<7.0.0,>=6.31.1",
+    "pytest<9.0.0,>=8.4.1",
+]
