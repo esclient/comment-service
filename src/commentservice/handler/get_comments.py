@@ -15,7 +15,8 @@ def convertCommentToProto(comment: tuple):
         id=comment[0], 
         author_id=comment[1], 
         text=comment[2],
-        created_at=int(datetime.timestamp(comment[3]))
+        created_at=int(datetime.timestamp(comment[3])),
+        edited_at=int(datetime.timestamp(comment[4]))
     )
 
 def convertCommentsToProto(comments: tuple):
