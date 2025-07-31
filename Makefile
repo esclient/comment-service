@@ -1,6 +1,6 @@
 include .env
 
-PROTO_TAG ?= v0.0.8
+PROTO_TAG ?= v0.0.10
 PROTO_NAME := comment.proto
 
 TMP_DIR := .proto
@@ -51,7 +51,7 @@ fetch-proto:
 
 gen-stubs: fetch-proto
 	$(MKDIR) "$(OUT_DIR)"
-	poetry run python -m grpc_tools.protoc \
+	pdm run python -m grpc_tools.protoc \
 		--proto_path="$(TMP_DIR)" \
 		--python_out="$(OUT_DIR)" \
 		--grpc_python_out="$(OUT_DIR)" \
