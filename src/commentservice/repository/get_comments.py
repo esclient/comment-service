@@ -7,7 +7,7 @@ def get_comments(mod_id: int) -> int:
         with conn.cursor() as cur:
             cur.execute(
                 """
-                SELECT id, author_id, text, created_at
+                SELECT id, author_id, text, created_at, edited_at
                 FROM comments
                 WHERE mod_id = %s
                 """,

@@ -12,13 +12,11 @@ class Comment(_message.Message):
     AUTHOR_ID_FIELD_NUMBER: _ClassVar[int]
     TEXT_FIELD_NUMBER: _ClassVar[int]
     CREATED_AT_FIELD_NUMBER: _ClassVar[int]
-    EDITED_AT_FIELD_NUMBER: _ClassVar[int]
     id: int
     author_id: int
     text: str
     created_at: int
-    edited_at: int
-    def __init__(self, id: _Optional[int] = ..., author_id: _Optional[int] = ..., text: _Optional[str] = ..., created_at: _Optional[int] = ..., edited_at: _Optional[int] = ...) -> None: ...
+    def __init__(self, id: _Optional[int] = ..., author_id: _Optional[int] = ..., text: _Optional[str] = ..., created_at: _Optional[int] = ...) -> None: ...
 
 class CreateCommentRequest(_message.Message):
     __slots__ = ("mod_id", "author_id", "text")

@@ -11,12 +11,17 @@ def GetComments(request: comment_pb2.GetCommentsRequest, context: grpc.ServicerC
     )
 
 def convertCommentToProto(comment: tuple):
-    return comment_pb2.Comment(
+    comment_proto=comment_pb2.Comment(
         id=comment[0], 
         author_id=comment[1], 
         text=comment[2],
-        created_at=int(datetime.timestamp(comment[3]))
+        created_at=int(datetime.timestamp(comment[3])),
     )
+ 
+    if comment[4] is not None:
+        comment_proto.edited_at=int(datetime.timestamp(comment[4]))
+
+    return comment_proto
 
 def convertCommentsToProto(comments: tuple):
     return [convertCommentToProto(i) for i in comments]
