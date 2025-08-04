@@ -1,4 +1,7 @@
-from commentservice.repository.create_comment import create_comment as repo_create_comment
+from commentservice.repository.repository import CommentRepository
 
-def create_comment(mod_id: int, author_id: int, text: str) -> int:
-    return repo_create_comment(mod_id, author_id, text)
+
+def create_comment(
+    repo: CommentRepository, mod_id: int, author_id: int, text: str
+) -> int:
+    return repo.create_comment(mod_id, author_id, text)

@@ -1,7 +1,8 @@
-from commentservice.db.connection import get_conn, release_conn
+from psycopg2.pool import ThreadedConnectionPool
 
-def get_comments(mod_id: int) -> int:
-    conn = get_conn()
+
+def get_comments(db_pool: ThreadedConnectionPool, mod_id: int) -> tuple:
+    conn = db_pool.getconn()
     comments = ()
     try:
         with conn.cursor() as cur:
@@ -11,9 +12,9 @@ def get_comments(mod_id: int) -> int:
                 FROM comments
                 WHERE mod_id = %s
                 """,
-                (mod_id,)
+                (mod_id,),
             )
             comments = cur.fetchall()
             return comments
     finally:
-        release_conn(conn)
+        db_pool.putconn(conn)

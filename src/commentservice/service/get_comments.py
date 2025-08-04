@@ -1,7 +1,5 @@
-from commentservice.repository.get_comments import (
-    get_comments as repo_get_comments
-)
+from commentservice.repository.repository import CommentRepository
 
-def get_comments(mod_id: int) -> int:
 
-    return repo_get_comments(mod_id)
+def get_comments(repo: CommentRepository, mod_id: int) -> tuple:
+    return repo.get_comments(mod_id)

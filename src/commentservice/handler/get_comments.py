@@ -1,13 +1,19 @@
-from commentservice.grpc import comment_pb2
-import grpc
-from commentservice.service.get_comments import get_comments as service_get_comments
 from datetime import datetime
 
-def GetComments(request: comment_pb2.GetCommentsRequest, context: grpc.ServicerContext):
-    comments = service_get_comments(mod_id=request.mod_id)
+import grpc
+
+from commentservice.grpc import comment_pb2
+from commentservice.service.service import CommentService
+
+
+def GetComments(
+    service: CommentService,
+    request: comment_pb2.GetCommentsRequest,
+    _: grpc.ServicerContext,
+) -> comment_pb2.GetCommentsResponse:
+    comments = service.get_comments(mod_id=request.mod_id)
     return comment_pb2.GetCommentsResponse(
-        mod_id=request.mod_id, 
-        comments=convertCommentsToProto(comments)
+        mod_id=request.mod_id, comments=convertCommentsToProto(comments)
     )
 
 def convertCommentToProto(comment: tuple):
@@ -23,5 +29,6 @@ def convertCommentToProto(comment: tuple):
 
     return comment_proto
 
-def convertCommentsToProto(comments: tuple):
+
+def convertCommentsToProto(comments: tuple) -> list[comment_pb2.Comment]:
     return [convertCommentToProto(i) for i in comments]

@@ -1,6 +1,5 @@
-from commentservice.repository.edit_comment import (
-    edit_comment as repo_edit_comment,
-)
+from commentservice.repository.repository import CommentRepository
 
-def edit_comment(comment_id: int, text: str) -> bool:
-    return repo_edit_comment(comment_id, text)
+
+def edit_comment(repo: CommentRepository, comment_id: int, text: str) -> bool:
+    return repo.edit_comment(comment_id, text)

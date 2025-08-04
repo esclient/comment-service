@@ -1,7 +1,10 @@
-from commentservice.db.connection import get_conn, release_conn
+from psycopg2.pool import ThreadedConnectionPool
 
-def create_comment(mod_id: int, author_id: int, text: str) -> int:
-    conn = get_conn()
+
+def create_comment(
+    db_pool: ThreadedConnectionPool, mod_id: int, author_id: int, text: str
+) -> int:
+    conn = db_pool.getconn()
     try:
         with conn.cursor() as cur:
             cur.execute(
@@ -10,10 +13,10 @@ def create_comment(mod_id: int, author_id: int, text: str) -> int:
                 VALUES (%s, %s, %s)
                 RETURNING id
                 """,
-                (mod_id, author_id, text)
+                (mod_id, author_id, text),
             )
             row = cur.fetchone()
             conn.commit()
             return row[0]
     finally:
-        release_conn(conn)
+        db_pool.putconn(conn)

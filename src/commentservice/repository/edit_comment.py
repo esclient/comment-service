@@ -1,11 +1,12 @@
-from commentservice.db.connection import get_conn, release_conn
+from psycopg2.pool import ThreadedConnectionPool
 
 
-def edit_comment(comment_id: int, text: str) -> bool:
-    conn = get_conn()
+def edit_comment(
+    db_pool: ThreadedConnectionPool, comment_id: int, text: str
+) -> bool:
+    conn = db_pool.getconn()
     try:
         with conn.cursor() as cur:
-            
             cur.execute(
                 """
                 SELECT *
@@ -33,4 +34,4 @@ def edit_comment(comment_id: int, text: str) -> bool:
                 success = False
             return success
     finally:
-        release_conn(conn)
+        db_pool.putconn(conn)
