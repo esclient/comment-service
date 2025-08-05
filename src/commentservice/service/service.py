@@ -1,3 +1,4 @@
+from commentservice.repository.model import Comment
 from commentservice.repository.repository import CommentRepository
 from commentservice.service.create_comment import (
     create_comment as _create_comment,
@@ -22,5 +23,5 @@ class CommentService:
     def delete_comment(self, comment_id: int) -> bool:
         return _delete_comment(self._repo, comment_id)
 
-    def get_comments(self, mod_id: int) -> tuple:
+    def get_comments(self, mod_id: int) -> list[Comment]:
         return _get_comments(self._repo, mod_id)

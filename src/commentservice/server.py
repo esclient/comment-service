@@ -5,7 +5,7 @@ import grpc
 from grpc_reflection.v1alpha import reflection
 from psycopg2.pool import ThreadedConnectionPool
 
-from commentservice.grpc import comment_pb2_grpc, comment_pb2
+from commentservice.grpc import comment_pb2, comment_pb2_grpc
 from commentservice.handler.handler import CommentHandler
 from commentservice.repository.repository import CommentRepository
 from commentservice.service.service import CommentService

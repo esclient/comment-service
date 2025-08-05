@@ -12,6 +12,7 @@ from commentservice.repository.edit_comment import (
 from commentservice.repository.get_comments import (
     get_comments as _get_comments,
 )
+from commentservice.repository.model import Comment
 
 
 class CommentRepository:
@@ -27,5 +28,5 @@ class CommentRepository:
     def delete_comment(self, comment_id: int) -> bool:
         return _delete_comment(self._db_pool, comment_id)
 
-    def get_comments(self, mod_id: int) -> tuple:
+    def get_comments(self, mod_id: int) -> list[Comment]:
         return _get_comments(self._db_pool, mod_id)

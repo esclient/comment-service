@@ -17,6 +17,7 @@ def create_comment(
             )
             row = cur.fetchone()
             conn.commit()
-            return row[0]
+            comment_id: int = row[0]
+            return comment_id
     finally:
         db_pool.putconn(conn)
