@@ -1,4 +1,4 @@
-include .env
+-include .env
 
 PROTO_TAG ?= v0.0.10
 PROTO_NAME := comment.proto
@@ -6,7 +6,7 @@ PROTO_NAME := comment.proto
 TMP_DIR := .proto
 OUT_DIR := src/commentservice/grpc
 
-.PHONY: clean fetch-proto gen-stubs update
+.PHONY: clean fetch-proto gen-stubs update format lint test
 
 ifeq ($(OS),Windows_NT)
 MKDIR    = powershell -Command "New-Item -ItemType Directory -Force -Path"
@@ -61,3 +61,19 @@ gen-stubs: fetch-proto
 	$(FIX_IMPORTS)
 
 update: gen-stubs clean
+
+
+format:
+	black .
+	isort .
+	ruff check . --fix
+
+lint:
+	black --check .
+	isort . --check --diff
+	flake8 .
+	ruff check .
+	mypy --strict .
+
+test:
+	pytest

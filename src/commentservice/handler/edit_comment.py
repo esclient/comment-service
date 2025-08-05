@@ -1,13 +1,13 @@
-from commentservice.grpc import comment_pb2
 import grpc
-from commentservice.service.edit_comment import (
-    edit_comment as service_edit_comment,
-)
+
+from commentservice.grpc import comment_pb2
+from commentservice.service.service import CommentService
 
 
 def EditComment(
-    request: comment_pb2.EditCommentRequest, context: grpc.ServicerContext
-):
-    success = service_edit_comment(request.comment_id, request.text)
-
+    service: CommentService,
+    request: comment_pb2.EditCommentRequest,
+    _: grpc.ServicerContext,
+) -> comment_pb2.EditCommentResponse:
+    success = service.edit_comment(request.comment_id, request.text)
     return comment_pb2.EditCommentResponse(success=success)

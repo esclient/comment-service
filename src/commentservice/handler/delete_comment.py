@@ -1,9 +1,13 @@
-from commentservice.grpc import comment_pb2
 import grpc
-from commentservice.service.delete_comment import delete_comment as service_delete_comment
 
-def DeleteComment(request: comment_pb2.DeleteCommentRequest, context: grpc.ServicerContext ):
+from commentservice.grpc import comment_pb2
+from commentservice.service.service import CommentService
 
-    success = service_delete_comment(request.comment_id)
 
-    return comment_pb2.DeleteCommentResponse(success = success)
+def DeleteComment(
+    service: CommentService,
+    request: comment_pb2.DeleteCommentRequest,
+    _: grpc.ServicerContext,
+) -> comment_pb2.DeleteCommentResponse:
+    success = service.delete_comment(request.comment_id)
+    return comment_pb2.DeleteCommentResponse(success=success)
