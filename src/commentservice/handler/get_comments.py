@@ -27,9 +27,7 @@ def convertCommentToProto(comment: Comment) -> comment_pb2.Comment:
     )
 
     if comment.edited_at is not None:
-        comment_proto.edited_at = int(  # type: ignore[attr-defined]
-            datetime.timestamp(comment.edited_at)
-        )
+        comment_proto.edited_at = int(datetime.timestamp(comment.edited_at))
 
     return comment_proto
 
