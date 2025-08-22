@@ -39,35 +39,6 @@
 └─────────────────┘
 ```
 
-### Структура проекта:
-```
-src/commentservice/
-├── grpc/                   # Сгенерированные protobuf файлы
-│   ├── comment_pb2.py
-│   └── comment_pb2_grpc.py
-├── handler/                # gRPC обработчики
-│   ├── handler.py          # Основной handler класс
-│   ├── create_comment.py
-│   ├── edit_comment.py
-│   ├── delete_comment.py
-│   └── get_comments.py
-├── service/                # Сервисы
-│   ├── service.py          # Основной service класс
-│   ├── create_comment.py
-│   ├── edit_comment.py
-│   ├── delete_comment.py
-│   └── get_comments.py
-├── repository/             # Данные
-│   ├── model.py            # Модели данных
-│   ├── repository.py       # Основной repository класс, работает с SQL запросами, ниже - сами SQL запросы
-│   ├── create_comment.py
-│   ├── edit_comment.py
-│   ├── delete_comment.py
-│   └── get_comments.py
-├── server.py               # Сервер
-└── settings.py             # Настройки
-```
-
 ## Функциональность
 
 ### Создание комментария
@@ -158,33 +129,14 @@ LOG_DATEFMT=%Y-%m-%d %H:%M:%S
 
 ## Разработка
 
-### Инструменты качества кода:
-
-```bash
-# Форматирование кода
-pdm run black src/
-
-# Сортировка импортов
-pdm run isort src/
-
-# Проверка стиля кода
-pdm run flake8 src/
-
-# Быстрая проверка с Ruff
-pdm run ruff check src/
-
-# Проверка типов
-pdm run mypy src/
-```
-
 ### Автоматическая проверка:
 
 ```bash
 # Запуск всех проверок сразу
-pdm run lint
+make lint
 
 # Автоматическое исправление форматирования
-pdm run format
+make format
 ```
 
 ### Тестирование
