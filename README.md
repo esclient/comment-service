@@ -142,5 +142,5 @@ make format
 ### Тестирование
 ```bash
 # Все тесты
-pdm run pytest
+make test
 ```
