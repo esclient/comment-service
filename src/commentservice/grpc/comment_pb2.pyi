@@ -1,3 +1,4 @@
+from google.protobuf import timestamp_pb2 as _timestamp_pb2
 from google.protobuf.internal import containers as _containers
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
@@ -16,9 +17,9 @@ class Comment(_message.Message):
     id: int
     author_id: int
     text: str
-    created_at: int
-    edited_at: int
-    def __init__(self, id: _Optional[int] = ..., author_id: _Optional[int] = ..., text: _Optional[str] = ..., created_at: _Optional[int] = ..., edited_at: _Optional[int] = ...) -> None: ...
+    created_at: _timestamp_pb2.Timestamp
+    edited_at: _timestamp_pb2.Timestamp
+    def __init__(self, id: _Optional[int] = ..., author_id: _Optional[int] = ..., text: _Optional[str] = ..., created_at: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ..., edited_at: _Optional[_Union[datetime.datetime, _timestamp_pb2.Timestamp, _Mapping]] = ...) -> None: ...
 
 class CreateCommentRequest(_message.Message):
     __slots__ = ("mod_id", "author_id", "text")

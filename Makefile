@@ -1,6 +1,6 @@
 -include .env
 
-PROTO_TAG ?= v0.0.14
+PROTO_TAG ?= v0.0.17
 PROTO_NAME := comment.proto
 
 TMP_DIR := .proto

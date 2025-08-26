@@ -1,10 +1,27 @@
-from datetime import datetime
+from datetime import datetime, timezone
 
 import grpc
+from google.protobuf.timestamp_pb2 import Timestamp
 
 from commentservice.grpc import comment_pb2
 from commentservice.repository.model import Comment
 from commentservice.service.service import CommentService
+
+
+def dt_to_ts(dt: datetime) -> Timestamp:
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    else:
+        dt = dt.astimezone(timezone.utc)
+
+    ts = Timestamp()
+    ts.FromDatetime(dt)
+    return ts
+
+
+def ts_to_dt(ts: Timestamp, tz: timezone = timezone.utc) -> datetime:
+    dt_utc = ts.ToDatetime().replace(tzinfo=timezone.utc)
+    return dt_utc.astimezone(tz)
 
 
 def GetComments(
@@ -19,15 +36,18 @@ def GetComments(
 
 
 def convertCommentToProto(comment: Comment) -> comment_pb2.Comment:
+    created_at_ts = dt_to_ts(comment.created_at)
+
     comment_proto = comment_pb2.Comment(
         id=comment.id,
         author_id=comment.author_id,
         text=comment.text,
-        created_at=int(datetime.timestamp(comment.created_at)),
+        created_at=created_at_ts,
     )
 
     if comment.edited_at is not None:
-        comment_proto.edited_at = int(datetime.timestamp(comment.edited_at))
+        edited_at_ts = dt_to_ts(comment.edited_at)
+        comment_proto.edited_at.CopyFrom(edited_at_ts)
 
     return comment_proto
 
