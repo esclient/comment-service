@@ -42,14 +42,12 @@ def convertCommentToProto(comment: Comment) -> comment_pb2.Comment:
         id=comment.id,
         author_id=comment.author_id,
         text=comment.text,
-        created_at=created_at_ts, 
+        created_at=created_at_ts,
     )
 
     if comment.edited_at is not None:
         edited_at_ts = dt_to_ts(comment.edited_at)
-        comment_proto.edited_at.CopyFrom(
-            edited_at_ts
-        ) 
+        comment_proto.edited_at.CopyFrom(edited_at_ts)
 
     return comment_proto
 
