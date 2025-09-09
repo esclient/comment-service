@@ -84,15 +84,7 @@ pdm install
 3. **Активируйте вирт. окружение (вирт. окружение pdm активирует сам)**
 
 4. **Настройте окружение**
-```env
-DATABASE_URL=postgresql://esclient_comms:VENCEB316EPr!G29@pg4.sweb.ru:5433/esclient_comms
-HOST=0.0.0.0
-PORT=7777
 
-LOG_LEVEL=INFO
-LOG_FORMAT=%(asctime)s %(levelname)-8s [%(name)s] %(message)s
-LOG_DATEFMT=%Y-%m-%d %H:%M:%S
-```
 5. **Запустите Docker Desktop**
 
 6. **Запустите сервер:**
