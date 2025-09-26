@@ -8,6 +8,9 @@ PY_FIX_IMPORTS := if os() == 'windows' {
   'bash -lc "for f in ' + OUT_DIR + '/*_pb2_grpc.py; do [ -f \"$f\" ] && sed -i \"s/^import \\(.*_pb2\\)/from . import \\1/\" \"$f\"; done"'
 }
 
+default:
+    @just --list
+
 clean:
     {{RM}}
 
@@ -16,12 +19,12 @@ fetch-proto:
     {{DOWN}} "https://raw.githubusercontent.com/esclient/protos/{{PROTO_TAG}}/{{PROTO_NAME}}" {{DOWN_OUT}} "{{TMP_DIR}}/{{PROTO_NAME}}"
 
 docker-build:
-    docker build --build-arg PORT={{PORT}} -t {{SERVICE_NAME}} .
+    docker build --build-arg PORT={{ env_var('PORT') }} -t {{SERVICE_NAME}} .
 
 run: docker-build
     docker run --rm -it \
       --env-file .env \
-      -p {{PORT}}:{{PORT}} \
+      -p {{ env_var('PORT') }}:{{ env_var('PORT') }} \
       -v {{invocation_directory()}}:/app \
       -e WATCHFILES_FORCE_POLLING=true \
       {{SERVICE_NAME}}
