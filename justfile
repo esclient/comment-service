@@ -8,7 +8,6 @@ PROTO_NAME := 'comment.proto'
 TMP_DIR := '.proto'
 OUT_DIR := 'src/commentservice/grpc'
 SERVICE_NAME := 'comment'
-PORT := env_var('PORT')
 
 MKDIR_DOTJUST := if os() == 'windows' {
   'New-Item -ItemType Directory -Force -Path ".just" | Out-Null'
