@@ -19,7 +19,7 @@
 
 ## Стек
 
-- **Python 3.10+** - основной язык разработки
+- **Python 3.13+** - основной язык разработки
 - **gRPC** - межсервисное взаимодействие
 - **PostgreSQL** - база данных
 - **PDM** - управление зависимостями
@@ -62,7 +62,7 @@
 ## Установка и запуск
 
 ### Требования
-- Python 3.10+
+- Python 3.13+
 - PDM (Python Dependency Manager)
 - Make
 - Protobuf (Protocol Buffer Compiler Installation)
