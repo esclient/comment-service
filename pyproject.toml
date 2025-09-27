@@ -97,14 +97,13 @@ authors = [
     {name = "esclient"},
 ]
 dependencies = [
-    "grpcio-reflection<2.0.0,>=1.72.1",
-    "pydantic<3.0.0,>=2.11.7",
-    "pydantic-settings<3.0.0,>=2.10.1",
-    "psycopg2-binary<3.0.0,>=2.9.10",
-    "grpcio-tools<2.0.0,>=1.73.1",
-    "watchfiles<2.0.0,>=1.1.0",
+    "grpcio-reflection==1.75.1",
+    "pydantic==2.11.9",
+    "pydantic-settings==2.11.0",
+    "psycopg2-binary==2.9.10",
+    "watchfiles==1.1.0",
 ]
-requires-python = "<4.0,>=3.13"
+requires-python = ">=3.13"
 readme = "README.md"
 license = {text = "MIT"}
 
@@ -113,18 +112,18 @@ run-server = "commentservice.server:serve"
 
 [dependency-groups]
 dev = [
-    "grpcio<2.0.0,>=1.72.1",
-    "grpcio-tools<2.0.0,>=1.73.1",
-    "protobuf<7.0.0,>=6.31.1",
-    "pytest<9.0.0,>=8.4.1",
-    "black>=23.1.0,<24.0.0",
-    "isort>=5.12.0,<6.0.0",
-    "flake8>=6.0.0,<7.0.0",
-    "flake8-pyproject>=1.2.3",
-    "ruff>=0.0.278,<0.1.0",
-    "mypy>=1.5.1,<2.0.0",
-    "types-protobuf>=6.30.2.20250703",
-    "grpc-stubs>=1.53.0.6",
-    "pytest-mock>=3.14.1",
-    "types-psycopg2>=2.9.21.20250718",
+    "grpcio==1.75.1",
+    "grpcio-tools==1.75.1",
+    "grpc-stubs==1.53.0.6",
+    "protobuf==6.32.1",
+    "pytest==8.4.2",
+    "pytest-mock==3.15.1",
+    "black==25.9.0",
+    "isort==6.0.1",
+    "flake8==7.3.0",
+    "flake8-pyproject==1.2.3",
+    "ruff==0.13.2",
+    "mypy==1.18.2",
+    "types-protobuf==6.32.1.20250918",
+    "types-psycopg2==2.9.21.20250915",
 ]

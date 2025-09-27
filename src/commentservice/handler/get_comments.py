@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timezone
 
 import grpc
 from google.protobuf.timestamp_pb2 import Timestamp
@@ -9,18 +9,14 @@ from commentservice.service.service import CommentService
 
 
 def dt_to_ts(dt: datetime) -> Timestamp:
-    if dt.tzinfo is None:
-        dt = dt.replace(tzinfo=timezone.utc)
-    else:
-        dt = dt.astimezone(timezone.utc)
-
+    dt = dt.replace(tzinfo=UTC) if dt.tzinfo is None else dt.astimezone(UTC)
     ts = Timestamp()
     ts.FromDatetime(dt)
     return ts
 
 
-def ts_to_dt(ts: Timestamp, tz: timezone = timezone.utc) -> datetime:
-    dt_utc = ts.ToDatetime().replace(tzinfo=timezone.utc)
+def ts_to_dt(ts: Timestamp, tz: timezone = UTC) -> datetime:
+    dt_utc = ts.ToDatetime().replace(tzinfo=UTC)
     return dt_utc.astimezone(tz)
 
 
