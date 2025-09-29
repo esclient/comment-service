@@ -1,0 +1,13 @@
+-- Optional: baseline schema for fresh environments
+-- dbmate will create its own table schema_migrations
+
+-- Example table (kept in sync with repository expectations)
+-- CREATE TABLE IF NOT EXISTS comments (
+--   id BIGSERIAL PRIMARY KEY,
+--   mod_id BIGINT NOT NULL,
+--   author_id BIGINT NOT NULL,
+--   text TEXT NOT NULL,
+--   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+--   edited_at TIMESTAMPTZ
+-- );
+
