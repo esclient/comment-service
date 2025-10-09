@@ -64,7 +64,7 @@
 ### Требования
 - Python 3.13+
 - PDM (Python Dependency Manager)
-- Make
+- Just
 - Protobuf (Protocol Buffer Compiler Installation)
 - PostgreSQL
 - Docker
@@ -89,7 +89,7 @@ pdm install
 
 6. **Запустите сервер:**
 ```bash
-make run
+just run
 ```
 
 ## Конфигурация
@@ -125,14 +125,14 @@ LOG_DATEFMT=%Y-%m-%d %H:%M:%S
 
 ```bash
 # Запуск всех проверок сразу
-make lint
+just lint
 
 # Автоматическое исправление форматирования
-make format
+just format
 ```
 
 ### Тестирование
 ```bash
 # Все тесты
-make test
+just test
 ```
