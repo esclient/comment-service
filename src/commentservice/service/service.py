@@ -14,14 +14,14 @@ class CommentService:
     def __init__(self, repo: CommentRepository):
         self._repo = repo
 
-    def create_comment(self, mod_id: int, author_id: int, text: str) -> int:
-        return _create_comment(self._repo, mod_id, author_id, text)
+    async def create_comment(self, mod_id: int, author_id: int, text: str) -> int:
+        return await _create_comment(self._repo, mod_id, author_id, text)
 
-    def edit_comment(self, comment_id: int, new_text: str) -> bool:
-        return _edit_comment(self._repo, comment_id, new_text)
+    async def edit_comment(self, comment_id: int, new_text: str) -> bool:
+        return await _edit_comment(self._repo, comment_id, new_text)
 
-    def delete_comment(self, comment_id: int) -> bool:
-        return _delete_comment(self._repo, comment_id)
+    async def delete_comment(self, comment_id: int) -> bool:
+        return await _delete_comment(self._repo, comment_id)
 
-    def get_comments(self, mod_id: int) -> list[Comment]:
-        return _get_comments(self._repo, mod_id)
+    async def get_comments(self, mod_id: int) -> list[Comment]:
+        return await _get_comments(self._repo, mod_id)

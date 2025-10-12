@@ -20,12 +20,12 @@ def ts_to_dt(ts: Timestamp, tz: timezone = UTC) -> datetime:
     return dt_utc.astimezone(tz)
 
 
-def GetComments(
+async def GetComments(
     service: CommentService,
     request: comment_pb2.GetCommentsRequest,
     _: grpc.ServicerContext,
 ) -> comment_pb2.GetCommentsResponse:
-    comments = service.get_comments(mod_id=request.mod_id)
+    comments = await service.get_comments(mod_id=request.mod_id)
     return comment_pb2.GetCommentsResponse(
         mod_id=request.mod_id, comments=convertCommentsToProto(comments)
     )

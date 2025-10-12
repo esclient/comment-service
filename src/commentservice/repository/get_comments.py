@@ -1,23 +1,20 @@
-from psycopg2.extras import RealDictCursor
-from psycopg2.pool import ThreadedConnectionPool
+from asyncpg import Pool
 
 from commentservice.repository.model import Comment
 
 
-def get_comments(
-    db_pool: ThreadedConnectionPool, mod_id: int
+async def get_comments(
+    db_pool: Pool, mod_id: int
 ) -> list[Comment]:
-    conn = db_pool.getconn()
-    try:
-        with conn.cursor(cursor_factory=RealDictCursor) as cur:
-            cur.execute(
-                """
-                SELECT id, author_id, text, created_at, edited_at
-                FROM comments
-                WHERE mod_id = %s
-                """,
-                (mod_id,),
-            )
-            return [Comment(**row) for row in cur.fetchall()]
-    finally:
-        db_pool.putconn(conn)
+    
+    async with db_pool.acquire() as conn:
+        rows = await conn.fetch(
+            """
+            SELECT id, author_id, text, created_at, edited_at
+            FROM comments
+            WHERE mod_id = $1
+            """,
+            mod_id
+        )
+        
+        return [Comment(**row) for row in rows]

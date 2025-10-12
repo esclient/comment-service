@@ -1,23 +1,16 @@
-from psycopg2.pool import ThreadedConnectionPool
+from asyncpg import Pool
 
 
-def create_comment(
-    db_pool: ThreadedConnectionPool, mod_id: int, author_id: int, text: str
+async def create_comment(
+    db_pool: Pool, mod_id: int, author_id: int, text: str
 ) -> int:
-    conn = db_pool.getconn()
-    try:
-        with conn.cursor() as cur:
-            cur.execute(
-                """
-                INSERT INTO comments (mod_id, author_id, text)
-                VALUES (%s, %s, %s)
-                RETURNING id
-                """,
-                (mod_id, author_id, text),
-            )
-            row = cur.fetchone()
-            conn.commit()
-            comment_id: int = row[0]
-            return comment_id
-    finally:
-        db_pool.putconn(conn)
+    async with db_pool.acquire() as conn:
+        comment_id = await conn.fetchval(
+            """
+            INSERT INTO comments (mod_id, author_id, text)
+            VALUES ($1, $2, $3)
+            RETURNING id
+            """,
+            mod_id, author_id, text
+        )
+        return comment_id

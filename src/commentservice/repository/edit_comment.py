@@ -1,37 +1,18 @@
-from psycopg2.pool import ThreadedConnectionPool
+from asyncpg import Pool
 
 
-def edit_comment(
-    db_pool: ThreadedConnectionPool, comment_id: int, text: str
+async def edit_comment(
+    db_pool: Pool, comment_id: int, text: str
 ) -> bool:
-    conn = db_pool.getconn()
-    try:
-        with conn.cursor() as cur:
-            cur.execute(
-                """
-                SELECT *
-                FROM comments
-                WHERE id = %s
-                """,
-                (comment_id,),
-            )
-
-            comment = cur.fetchone()
-            if comment:
-                cur.execute(
-                    """
-                    UPDATE comments
-                    SET text = %s, edited_at = NOW()
-                    WHERE id = %s
-                    """,
-                    (text, comment_id),
-                )
-
-                conn.commit()
-
-                success = True
-            else:
-                success = False
-            return success
-    finally:
-        db_pool.putconn(conn)
+    async with db_pool.acquire() as conn:
+        updated_id = await conn.fetchval(
+            """
+            UPDATE comments
+            SET text = $1, edited_at = NOW()
+            WHERE id = $2
+            RETURNING id
+            """,
+            text, comment_id
+        )
+        
+        return updated_id is not None

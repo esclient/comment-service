@@ -16,30 +16,30 @@ class CommentHandler(comment_pb2_grpc.CommentServiceServicer):
     def __init__(self, service: CommentService):
         self._service = service
 
-    def CreateComment(
+    async def CreateComment(
         self,
         request: comment_pb2.CreateCommentRequest,
         context: grpc.ServicerContext,
     ) -> comment_pb2.CreateCommentResponse:
-        return _create_comment(self._service, request, context)
+        return await _create_comment(self._service, request, context)
 
-    def EditComment(
+    async def EditComment(
         self,
         request: comment_pb2.EditCommentRequest,
         context: grpc.ServicerContext,
     ) -> comment_pb2.EditCommentResponse:
-        return _edit_comment(self._service, request, context)
+        return await _edit_comment(self._service, request, context)
 
-    def DeleteComment(
+    async def DeleteComment(
         self,
         request: comment_pb2.DeleteCommentRequest,
         context: grpc.ServicerContext,
     ) -> comment_pb2.DeleteCommentResponse:
-        return _delete_comment(self._service, request, context)
+        return await _delete_comment(self._service, request, context)
 
-    def GetComments(
+    async def GetComments(
         self,
         request: comment_pb2.GetCommentsRequest,
         context: grpc.ServicerContext,
     ) -> comment_pb2.GetCommentsResponse:
-        return _get_comments(self._service, request, context)
+        return await _get_comments(self._service, request, context)
