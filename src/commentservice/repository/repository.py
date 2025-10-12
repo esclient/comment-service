@@ -1,8 +1,4 @@
-import asyncio
 import asyncpg
-from typing import List
-
-from psycopg2.pool import ThreadedConnectionPool
 
 from commentservice.repository.create_comment import (
     create_comment as _create_comment,
@@ -23,10 +19,12 @@ class CommentRepository:
     def __init__(self, db_pool: asyncpg.Pool):
         self._db_pool: asyncpg.Pool = db_pool
 
-    async def close(self):
+    async def close(self) -> None:
         await self._db_pool.close()
 
-    async def create_comment(self, mod_id: int, author_id: int, text: str) -> int:
+    async def create_comment(
+        self, mod_id: int, author_id: int, text: str
+    ) -> int:
         return await _create_comment(self._db_pool, mod_id, author_id, text)
 
     async def edit_comment(self, comment_id: int, new_text: str) -> bool:
@@ -35,5 +33,5 @@ class CommentRepository:
     async def delete_comment(self, comment_id: int) -> bool:
         return await _delete_comment(self._db_pool, comment_id)
 
-    async def get_comments(self, mod_id: int) -> List[Comment]:
+    async def get_comments(self, mod_id: int) -> list[Comment]:
         return await _get_comments(self._db_pool, mod_id)

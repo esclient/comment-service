@@ -2,9 +2,9 @@ import asyncio
 import logging
 from concurrent import futures
 
+import asyncpg
 import grpc
 from grpc_reflection.v1alpha import reflection
-import asyncpg
 
 from commentservice.grpc import comment_pb2, comment_pb2_grpc
 from commentservice.handler.handler import CommentHandler
@@ -44,8 +44,10 @@ async def serve() -> None:
     logger.info(f"gRPC server listening on {settings.host}:{settings.port}")
     await server.wait_for_termination()
 
-def main():
+
+def main() -> None:
     asyncio.run(serve())
+
 
 if __name__ == "__main__":
     main()

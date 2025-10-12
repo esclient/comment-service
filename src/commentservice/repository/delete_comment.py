@@ -9,7 +9,7 @@ async def delete_comment(db_pool: Pool, comment_id: int) -> bool:
             WHERE id = $1
             RETURNING id
             """,
-            comment_id
+            comment_id,
         )
-        
+
         return deleted_id is not None

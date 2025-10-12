@@ -14,7 +14,9 @@ class CommentService:
     def __init__(self, repo: CommentRepository):
         self._repo = repo
 
-    async def create_comment(self, mod_id: int, author_id: int, text: str) -> int:
+    async def create_comment(
+        self, mod_id: int, author_id: int, text: str
+    ) -> int:
         return await _create_comment(self._repo, mod_id, author_id, text)
 
     async def edit_comment(self, comment_id: int, new_text: str) -> bool:
