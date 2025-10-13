@@ -4,7 +4,6 @@ from commentservice.repository.model import Comment
 
 
 async def get_comments(db_pool: Pool, mod_id: int) -> list[Comment]:
-
     async with db_pool.acquire() as conn:
         rows = await conn.fetch(
             """
