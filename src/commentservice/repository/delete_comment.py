@@ -1,36 +1,15 @@
-from psycopg2.pool import ThreadedConnectionPool
+from asyncpg import Pool
 
 
-def delete_comment(db_pool: ThreadedConnectionPool, comment_id: int) -> bool:
-    conn = db_pool.getconn()
-    try:
-        with conn.cursor() as cur:
-            cur.execute(
-                """
-                SELECT *
-                FROM comments
-                WHERE id = %s
-                """,
-                (comment_id,),
-            )
-            comment = cur.fetchone()
+async def delete_comment(db_pool: Pool, comment_id: int) -> bool:
+    async with db_pool.acquire() as conn:
+        deleted_id = await conn.fetchval(
+            """
+            DELETE FROM comments
+            WHERE id = $1
+            RETURNING id
+            """,
+            comment_id,
+        )
 
-            if comment:
-                cur.execute(
-                    """
-                DELETE
-                FROM comments
-                WHERE id = %s
-                """,
-                    (comment_id,),
-                )
-                success = True
-                conn.commit()
-                return success
-
-            else:
-                success = False
-                return success
-
-    finally:
-        db_pool.putconn(conn)
+        return deleted_id is not None

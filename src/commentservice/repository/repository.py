@@ -1,4 +1,4 @@
-from psycopg2.pool import ThreadedConnectionPool
+import asyncpg
 
 from commentservice.repository.create_comment import (
     create_comment as _create_comment,
@@ -16,17 +16,22 @@ from commentservice.repository.model import Comment
 
 
 class CommentRepository:
-    def __init__(self, db_pool: ThreadedConnectionPool):
-        self._db_pool = db_pool
+    def __init__(self, db_pool: asyncpg.Pool):
+        self._db_pool: asyncpg.Pool = db_pool
 
-    def create_comment(self, mod_id: int, author_id: int, text: str) -> int:
-        return _create_comment(self._db_pool, mod_id, author_id, text)
+    async def close(self) -> None:
+        await self._db_pool.close()
 
-    def edit_comment(self, comment_id: int, new_text: str) -> bool:
-        return _edit_comment(self._db_pool, comment_id, new_text)
+    async def create_comment(
+        self, mod_id: int, author_id: int, text: str
+    ) -> int:
+        return await _create_comment(self._db_pool, mod_id, author_id, text)
 
-    def delete_comment(self, comment_id: int) -> bool:
-        return _delete_comment(self._db_pool, comment_id)
+    async def edit_comment(self, comment_id: int, new_text: str) -> bool:
+        return await _edit_comment(self._db_pool, comment_id, new_text)
 
-    def get_comments(self, mod_id: int) -> list[Comment]:
-        return _get_comments(self._db_pool, mod_id)
+    async def delete_comment(self, comment_id: int) -> bool:
+        return await _delete_comment(self._db_pool, comment_id)
+
+    async def get_comments(self, mod_id: int) -> list[Comment]:
+        return await _get_comments(self._db_pool, mod_id)
