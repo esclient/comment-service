@@ -8,7 +8,6 @@ PROTO_TAG := 'v0.0.17'
 PROTO_NAME := 'comment.proto'
 TMP_DIR := '.proto'
 OUT_DIR := 'src/commentservice/grpc'
-SERVICE_NAME := 'comment'
 
 MKDIR_TOOLS := 'mkdir -p tools'
 
