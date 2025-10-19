@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   lint-and-test:
-    uses: esclient/tools/.github/workflows/lint-and-test-python.yml@d3ed2b83a8b318be00d3c211560f62ac40efc2d2
+    uses: esclient/tools/.github/workflows/lint-and-test-python.yml@84db005db60d5ca2a357d1796b8b3648a2898077
     with:
       python-version: "3.13.7"
       source: "commentservice"
