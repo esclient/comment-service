@@ -1,4 +1,3 @@
-import asyncio
 from datetime import UTC, timedelta
 
 import grpc
@@ -15,40 +14,36 @@ from commentservice.repository.model import Comment
 from commentservice.service.service import CommentService
 
 
-@pytest.fixture()
-def fake() -> Faker:
-    f = Faker()
-    f.seed_instance(20251019)
-    return f
-
-
-def test_get_comments_success(mocker: MockerFixture, fake: Faker) -> None:
+@pytest.mark.asyncio
+async def test_get_comments_success(
+    mocker: MockerFixture, faker: Faker
+) -> None:
     ctx = mocker.Mock(spec=grpc.ServicerContext)
     fake_service = mocker.Mock(spec=CommentService)
 
-    now = fake.date_time(tzinfo=UTC)
-    earlier = now - timedelta(hours=fake.random_int(min=1, max=12))
+    now = faker.date_time(tzinfo=UTC)
+    earlier = now - timedelta(hours=faker.random_int(min=1, max=12))
 
     comment1 = Comment(
-        id=fake.random_int(min=1, max=100000),
-        author_id=fake.random_int(min=1, max=100000),
-        text=fake.sentence(),
+        id=faker.random_int(min=1, max=100000),
+        author_id=faker.random_int(min=1, max=100000),
+        text=faker.sentence(),
         created_at=earlier,
         edited_at=None,
     )
     comment2 = Comment(
-        id=fake.random_int(min=1, max=100000),
-        author_id=fake.random_int(min=1, max=100000),
-        text=fake.sentence(),
+        id=faker.random_int(min=1, max=100000),
+        author_id=faker.random_int(min=1, max=100000),
+        text=faker.sentence(),
         created_at=now,
         edited_at=now,
     )
     comments = [comment1, comment2]
     fake_service.get_comments.return_value = comments
 
-    mod_id = fake.random_int(min=1, max=100000)
+    mod_id = faker.random_int(min=1, max=100000)
     request = GetCommentsRequest(mod_id=mod_id)
-    response = asyncio.run(GetComments(fake_service, request, ctx))
+    response = await GetComments(fake_service, request, ctx)
 
     assert isinstance(response, GetCommentsResponse)
     assert response.mod_id == mod_id

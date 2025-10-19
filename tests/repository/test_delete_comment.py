@@ -1,4 +1,3 @@
-import asyncio
 import textwrap
 from unittest.mock import AsyncMock
 
@@ -9,32 +8,23 @@ from pytest_mock import MockerFixture
 from commentservice.repository.repository import CommentRepository
 
 
-@pytest.fixture()
-def fake() -> Faker:
-    f = Faker()
-    f.seed_instance(20251019)
-    return f
-
-
-def _make_pool(mocker: MockerFixture, conn: object):
-    acquire_cm = mocker.MagicMock()
-    acquire_cm.__aenter__ = AsyncMock(return_value=conn)
-    acquire_cm.__aexit__ = AsyncMock(return_value=None)
-    pool = mocker.Mock()
-    pool.acquire.return_value = acquire_cm
-    return pool
-
-
-def test_repo_delete_comment_success(mocker: MockerFixture, fake) -> None:
+@pytest.mark.asyncio
+async def test_repo_delete_comment_success(
+    mocker: MockerFixture, faker: Faker
+) -> None:
     conn = mocker.Mock()
-    conn.fetchval = AsyncMock(return_value=123)
-    pool = _make_pool(mocker, conn)
-    repo = CommentRepository(pool)  # type: ignore[arg-type]
+    conn.fetchval = AsyncMock()
+    pool = mocker.Mock()
+    pool.acquire = mocker.Mock()
+    pool.acquire.return_value = AsyncMock()
+    pool.acquire.return_value.__aenter__.return_value = conn
+    pool.acquire.return_value.__aexit__.return_value = None
+    repo = CommentRepository(pool)
 
-    cid = fake.random_int(min=1, max=100000)
+    cid = faker.random_int(min=1, max=100000)
     conn.fetchval.return_value = cid
 
-    ok = asyncio.run(repo.delete_comment(comment_id=cid))
+    ok = await repo.delete_comment(comment_id=cid)
     assert ok is True
     expected_sql = """
             DELETE FROM comments
@@ -49,14 +39,21 @@ def test_repo_delete_comment_success(mocker: MockerFixture, fake) -> None:
     assert conn.fetchval.await_args.args[1:] == (cid,)
 
 
-def test_repo_delete_comment_not_found(mocker: MockerFixture, fake) -> None:
+@pytest.mark.asyncio
+async def test_repo_delete_comment_not_found(
+    mocker: MockerFixture, faker: Faker
+) -> None:
     conn = mocker.Mock()
     conn.fetchval = AsyncMock(return_value=None)
-    pool = _make_pool(mocker, conn)
-    repo = CommentRepository(pool)  # type: ignore[arg-type]
+    pool = mocker.Mock()
+    pool.acquire = mocker.Mock()
+    pool.acquire.return_value = AsyncMock()
+    pool.acquire.return_value.__aenter__.return_value = conn
+    pool.acquire.return_value.__aexit__.return_value = None
+    repo = CommentRepository(pool)
 
-    cid = fake.random_int(min=1, max=100000)
-    ok = asyncio.run(repo.delete_comment(comment_id=cid))
+    cid = faker.random_int(min=1, max=100000)
+    ok = await repo.delete_comment(comment_id=cid)
     assert ok is False
     expected_sql = """
             DELETE FROM comments

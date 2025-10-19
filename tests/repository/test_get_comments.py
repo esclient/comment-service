@@ -1,4 +1,3 @@
-import asyncio
 import textwrap
 from datetime import UTC
 from unittest.mock import AsyncMock
@@ -10,43 +9,39 @@ from pytest_mock import MockerFixture
 from commentservice.repository.repository import CommentRepository
 
 
-@pytest.fixture()
-def fake() -> Faker:
-    f = Faker()
-    f.seed_instance(20251019)
-    return f
-
-
-def test_repo_get_comments_maps_rows(
-    mocker: MockerFixture, fake: Faker
+@pytest.mark.asyncio
+async def test_repo_get_comments_maps_rows(
+    mocker: MockerFixture, faker: Faker
 ) -> None:
     rows = [
         {
-            "id": fake.random_int(),
-            "author_id": fake.random_int(),
-            "text": fake.sentence(),
-            "created_at": fake.date_time(tzinfo=UTC),
+            "id": faker.random_int(),
+            "author_id": faker.random_int(),
+            "text": faker.sentence(),
+            "created_at": faker.date_time(tzinfo=UTC),
             "edited_at": None,
         },
         {
-            "id": fake.random_int(),
-            "author_id": fake.random_int(),
-            "text": fake.sentence(),
-            "created_at": fake.date_time(tzinfo=UTC),
-            "edited_at": fake.date_time(tzinfo=UTC),
+            "id": faker.random_int(),
+            "author_id": faker.random_int(),
+            "text": faker.sentence(),
+            "created_at": faker.date_time(tzinfo=UTC),
+            "edited_at": faker.date_time(tzinfo=UTC),
         },
     ]
 
     conn = mocker.Mock()
     conn.fetch = AsyncMock(return_value=rows)
-    acquire_cm = mocker.MagicMock()
-    acquire_cm.__aenter__ = AsyncMock(return_value=conn)
-    acquire_cm.__aexit__ = AsyncMock(return_value=None)
     pool = mocker.Mock()
-    pool.acquire.return_value = acquire_cm
-    repo = CommentRepository(pool)  # type: ignore[arg-type]
+    pool.acquire = mocker.Mock()
+    pool.acquire.return_value = AsyncMock()
+    pool.acquire.return_value.__aenter__.return_value = conn
+    pool.acquire.return_value.__aexit__.return_value = None
+    repo = CommentRepository(pool)
 
-    out = asyncio.run(repo.get_comments(mod_id=77))
+    mod_id = faker.random_int(min=1, max=100000)
+
+    out = await repo.get_comments(mod_id=mod_id)
 
     assert len(out) == 2
     assert out[0].id == rows[0]["id"] and out[0].text == rows[0]["text"]
@@ -63,4 +58,4 @@ def test_repo_get_comments_maps_rows(
         textwrap.dedent(actual_sql).strip()
         == textwrap.dedent(expected_sql).strip()
     )
-    assert conn.fetch.await_args.args[1:] == (77,)
+    assert conn.fetch.await_args.args[1:] == (mod_id,)
