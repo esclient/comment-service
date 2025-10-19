@@ -40,9 +40,9 @@ lint:
 
 test:
     pytest \
-      --cov=src/commentservice/handler \
-      --cov=src/commentservice/service \
-      --cov=src/commentservice/repository \
+      --cov=src/{{SOURCE}}/handler \
+      --cov=src/{{SOURCE}}/service \
+      --cov=src/{{SOURCE}}/repository \
       --cov-report=xml:coverage.xml
 
 prepare: format lint test
