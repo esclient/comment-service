@@ -93,6 +93,11 @@ plugins = ["pydantic.mypy"]
 module = "asyncpg.*"
 ignore_missing_imports = true
 
+[tool.pytest.ini_options]
+addopts = "--import-mode=importlib"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+
 [project]
 name = "commentservice"
 version = "0.0.1"
@@ -124,6 +129,7 @@ dev = [
     "pytest==8.4.2",
     "pytest-cov==5.0.0",
     "pytest-mock==3.15.1",
+    "Faker==30.8.2",
     "black==25.9.0",
     "isort==6.0.1",
     "flake8==7.3.0",
