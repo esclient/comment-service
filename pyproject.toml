@@ -99,6 +99,17 @@ asyncio_mode = "strict"
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 
+[tool.coverage.run]
+source = ["src/commentservice"]
+relative_files = true
+
+[tool.coverage.report]
+include = [
+    "src/commentservice/handler/*",
+    "src/commentservice/service/*",
+    "src/commentservice/repository/*",
+]
+
 [project]
 name = "commentservice"
 version = "0.0.1"
