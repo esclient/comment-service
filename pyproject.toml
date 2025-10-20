@@ -109,6 +109,7 @@ include = [
     "src/commentservice/service/*",
     "src/commentservice/repository/*",
 ]
+omit = ["src/commentservice/server.py"]
 
 [project]
 name = "commentservice"
