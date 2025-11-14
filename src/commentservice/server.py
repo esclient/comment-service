@@ -1,5 +1,6 @@
 import asyncio
 import logging
+import signal
 from concurrent import futures
 
 import asyncpg
@@ -11,6 +12,7 @@ from commentservice.handler.handler import CommentHandler
 from commentservice.repository.repository import CommentRepository
 from commentservice.service.service import CommentService
 from commentservice.settings import Settings
+from commentservice.kafka.moderaiton_service import ModerationService
 
 
 async def serve() -> None:
@@ -24,8 +26,10 @@ async def serve() -> None:
         max_size=10,
     )
 
+    moderation_service = ModerationService()
+
     repo = CommentRepository(db_pool)
-    service = CommentService(repo)
+    service = CommentService(repo, moderation_service)
     handler = CommentHandler(service)
 
     server = grpc.aio.server(futures.ThreadPoolExecutor(max_workers=5))
@@ -42,6 +46,7 @@ async def serve() -> None:
     server.add_insecure_port(f"{settings.host}:{settings.port}")
     await server.start()
     logger.info(f"gRPC server listening on {settings.host}:{settings.port}")
+    logger.info("Kafka consumer running in background")
     await server.wait_for_termination()
 
 
