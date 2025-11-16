@@ -8,16 +8,22 @@ from commentservice.service.delete_comment import (
 )
 from commentservice.service.edit_comment import edit_comment as _edit_comment
 from commentservice.service.get_comments import get_comments as _get_comments
+from commentservice.kafka.moderaiton_service import ModerationService
 
 
 class CommentService:
-    def __init__(self, repo: CommentRepository):
+    def __init__(self, repo: CommentRepository, moderation_service: ModerationService):
         self._repo = repo
+        self.moderation_service = moderation_service
 
     async def create_comment(
         self, mod_id: int, author_id: int, text: str
     ) -> int:
-        return await _create_comment(self._repo, mod_id, author_id, text)
+        
+        comment_id = await _create_comment(self._repo, mod_id, author_id, text)
+        
+        self.moderation_service.request_moderaiton(comment_id, text)
+        return comment_id
 
     async def edit_comment(self, comment_id: int, new_text: str) -> bool:
         return await _edit_comment(self._repo, comment_id, new_text)
