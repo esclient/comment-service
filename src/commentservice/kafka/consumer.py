@@ -2,7 +2,7 @@ from confluent_kafka import Consumer, KafkaException, KafkaError
 import logging
 import threading
 from .config import KafkaConfig
-from commentservice.grpc import comment_pb2
+from commentservice.grpc import moderation_pb2
 
 logger = logging.getLogger(__name__)
 
@@ -80,11 +80,11 @@ class ModerationResponseConsumer:
                 try:
                     key_str = msg.key().decode('utf-8')
                     request_id = int(key_str)
-                except (ValueError, UnicodeDecodeError) as e:
+                except (ValueError) as e:
                     logger.error(f"Failed to parse message key to request ID: {e}")
                     return
 
-            response = comment_pb2.CreateCommentResponse()
+            response = moderation_pb2.ModerateObjectResponse()
             response.ParseFromString(msg.value())
 
             logger.info(

@@ -2,7 +2,7 @@ from confluent_kafka import Producer
 from confluent_kafka import KafkaException
 import logging
 from .config import KafkaConfig
-from commentservice.grpc import comment_pb2
+from commentservice.grpc import moderation_pb2
 import time
 
 logger = logging.getLogger(__name__)
@@ -16,8 +16,7 @@ class ModerationRequestProducer:
 
         logger.info(f"ModerationRequestProducer initialized for topic: {self.topic}")
     
-    def send_moderation_request(self, request: comment_pb2.CreateCommentRequest, retries: int = 3) -> bool:
-
+    def send_moderation_request(self, request: moderation_pb2.ModerateObjectRequest, retries: int = 3) -> bool:
         for _ in range(retries):
             try:
                 serialized_request = request.SerializeToString()
@@ -46,8 +45,8 @@ class ModerationRequestProducer:
             except Exception as e:
                 logger.error(f"Unexpected error producing message: {e}")
                 return False
-            
         return False
+        
     
     def _delivery_callback(self, err, msg):
 

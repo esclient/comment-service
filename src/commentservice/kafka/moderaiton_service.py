@@ -2,7 +2,7 @@ import logging
 from ..kafka.producer import ModerationRequestProducer
 from ..kafka.consumer import ModerationResponseConsumer
 from ..kafka.config import KafkaConfig
-from commentservice.grpc import comment_pb2
+from commentservice.grpc import moderation_pb2
 
 logger = logging.getLogger(__name__)
 
@@ -24,7 +24,7 @@ class ModerationService:
 
     def request_moderaiton(self, comment_id: int, comment_text: str) -> bool:
         try:
-            request = comment_pb2.CreateCommentRequest()
+            request = moderation_pb2.ModerateObjectRequest()
             request.id = comment_id
             request.text = comment_text
             
@@ -41,7 +41,7 @@ class ModerationService:
             logger.error(f"Error requesting moderation: {e}")
             return False
 
-    def _handle_moderation_response(self, response: comment_pb2.CreateCommentResponse, request_id: int):
+    def _handle_moderation_response(self, response: moderation_pb2.ModerateObjectResponse, request_id: int):
         
         try:
             is_flagged = response.success

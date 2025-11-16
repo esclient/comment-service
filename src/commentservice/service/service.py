@@ -19,7 +19,11 @@ class CommentService:
     async def create_comment(
         self, mod_id: int, author_id: int, text: str
     ) -> int:
-        return await _create_comment(self._repo, mod_id, author_id, text)
+        
+        comment_id = await _create_comment(self._repo, mod_id, author_id, text)
+        
+        self.moderation_service.request_moderaiton(comment_id, text)
+        return comment_id
 
     async def edit_comment(self, comment_id: int, new_text: str) -> bool:
         return await _edit_comment(self._repo, comment_id, new_text)

@@ -20,7 +20,7 @@ class KafkaConfig:
             'retries': self.max_retries,
             'retry.backoff.ms': self.retry_backoff_ms,
             'enable.idempotence': True,
-            'compression.type': 'snappy'
+            'compression.type': 'none'
         }
         return config
     
