@@ -17,7 +17,7 @@ _ENUM_TO_DB_STATUS_BY_VALUE: dict[int, str] = {
 
 def _convert_enum_to_status(status_value: int) -> str:
     if status_value == comment_pb2.CommentStatus.COMMENT_STATUS_UNSPECIFIED:
-        raise ValueError("Нужно указать статус")
+        raise ValueError("Status must be specified")
     return _ENUM_TO_DB_STATUS_BY_VALUE[status_value]
 
 
@@ -30,7 +30,11 @@ async def SetStatus(
         status_str = _convert_enum_to_status(request.status)
         success = await service.set_status(request.comment_id, status_str)
         return comment_pb2.SetStatusResponse(success=success)
+    except ValueError as e:
+        context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+        context.set_details(str(e))
+        return comment_pb2.SetStatusResponse(success=False)
     except Exception as e:
         context.set_code(grpc.StatusCode.INTERNAL)
-        context.set_details(f"Ошибка при указании статуса {e!s}")
+        context.set_details(f"Failed to set status: {e!s}")
         return comment_pb2.SetStatusResponse(success=False)
