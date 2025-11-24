@@ -9,9 +9,7 @@ from commentservice.repository.repository import CommentRepository
 
 
 @pytest.mark.asyncio
-async def test_repo_create_comment_returns_id(
-    mocker: MockerFixture, faker: Faker
-) -> None:
+async def test_repo_create_comment_returns_id(mocker: MockerFixture, faker: Faker) -> None:
     comment_id = faker.random_int(min=1, max=100000)
     conn = mocker.Mock()
     conn.fetchval = AsyncMock(return_value=comment_id)
@@ -26,9 +24,7 @@ async def test_repo_create_comment_returns_id(
     mod_id = faker.random_int(min=1, max=100000)
     author_id = faker.random_int(min=1, max=100000)
     text = faker.sentence()
-    new_id = await repo.create_comment(
-        mod_id=mod_id, author_id=author_id, text=text
-    )
+    new_id = await repo.create_comment(mod_id=mod_id, author_id=author_id, text=text)
 
     assert new_id == comment_id
     assert conn.fetchval.await_count == 1
@@ -38,8 +34,5 @@ async def test_repo_create_comment_returns_id(
             RETURNING id
             """
     actual_sql = conn.fetchval.await_args.args[0]
-    assert (
-        textwrap.dedent(actual_sql).strip()
-        == textwrap.dedent(expected_sql).strip()
-    )
+    assert textwrap.dedent(actual_sql).strip() == textwrap.dedent(expected_sql).strip()
     assert conn.fetchval.await_args.args[1:] == (mod_id, author_id, text)

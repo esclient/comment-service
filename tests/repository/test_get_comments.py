@@ -10,9 +10,7 @@ from commentservice.repository.repository import CommentRepository
 
 
 @pytest.mark.asyncio
-async def test_repo_get_comments_maps_rows(
-    mocker: MockerFixture, faker: Faker
-) -> None:
+async def test_repo_get_comments_maps_rows(mocker: MockerFixture, faker: Faker) -> None:
     rows = [
         {
             "id": faker.random_int(),
@@ -54,8 +52,5 @@ async def test_repo_get_comments_maps_rows(
             WHERE mod_id = $1
             """
     actual_sql = conn.fetch.await_args.args[0]
-    assert (
-        textwrap.dedent(actual_sql).strip()
-        == textwrap.dedent(expected_sql).strip()
-    )
+    assert textwrap.dedent(actual_sql).strip() == textwrap.dedent(expected_sql).strip()
     assert conn.fetch.await_args.args[1:] == (mod_id,)

@@ -1,6 +1,10 @@
 import grpc
 
-from commentservice.constants import STATUS_DELETED, STATUS_HIDDEN, STATUS_ON_MODERATION
+from commentservice.constants import (
+    STATUS_DELETED,
+    STATUS_HIDDEN,
+    STATUS_ON_MODERATION,
+)
 from commentservice.grpc import comment_pb2
 from commentservice.service.service import CommentService
 

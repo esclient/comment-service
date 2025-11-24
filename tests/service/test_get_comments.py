@@ -11,9 +11,7 @@ from commentservice.service.service import CommentService
 
 
 @pytest.mark.asyncio
-async def test_service_get_comments(
-    mocker: MockerFixture, faker: Faker
-) -> None:
+async def test_service_get_comments(mocker: MockerFixture, faker: Faker) -> None:
     fake_repo = mocker.Mock(spec=CommentRepository)
     comments = [
         Comment(

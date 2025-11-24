@@ -15,9 +15,7 @@ from commentservice.service.service import CommentService
 
 
 @pytest.mark.asyncio
-async def test_get_comments_success(
-    mocker: MockerFixture, faker: Faker
-) -> None:
+async def test_get_comments_success(mocker: MockerFixture, faker: Faker) -> None:
     ctx = mocker.Mock(spec=grpc.ServicerContext)
     fake_service = mocker.Mock(spec=CommentService)
 

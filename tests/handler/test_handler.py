@@ -16,15 +16,11 @@ from commentservice.service.service import CommentService
 
 def _build_create_pair(
     faker: Faker,
-) -> tuple[
-    comment_pb2.CreateCommentRequest, comment_pb2.CreateCommentResponse
-]:
+) -> tuple[comment_pb2.CreateCommentRequest, comment_pb2.CreateCommentResponse]:
     mod_id = faker.random_int(min=1, max=100000)
     author_id = faker.random_int(min=1, max=100000)
     text = faker.sentence()
-    response = comment_pb2.CreateCommentResponse(
-        comment_id=faker.random_int(min=1, max=100000)
-    )
+    response = comment_pb2.CreateCommentResponse(comment_id=faker.random_int(min=1, max=100000))
     request = comment_pb2.CreateCommentRequest(
         mod_id=mod_id,
         author_id=author_id,
@@ -39,9 +35,7 @@ def _build_edit_pair(
     comment_id = faker.random_int(min=1, max=100000)
     new_text = faker.sentence()
     response = comment_pb2.EditCommentResponse(success=True)
-    request = comment_pb2.EditCommentRequest(
-        comment_id=comment_id, text=new_text
-    )
+    request = comment_pb2.EditCommentRequest(comment_id=comment_id, text=new_text)
     return request, response
 
 

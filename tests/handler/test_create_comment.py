@@ -14,9 +14,7 @@ from commentservice.service.service import CommentService
 
 
 @pytest.mark.asyncio
-async def test_create_comment_success(
-    mocker: MockerFixture, faker: Faker
-) -> None:
+async def test_create_comment_success(mocker: MockerFixture, faker: Faker) -> None:
     ctx = mocker.Mock(spec=grpc.ServicerContext)
     fake_service = mocker.Mock(spec=CommentService)
     new_id = faker.random_int(min=1, max=100000)
@@ -25,15 +23,11 @@ async def test_create_comment_success(
     mod_id = faker.random_int(min=1, max=100000)
     author_id = faker.random_int(min=1, max=100000)
     text = faker.sentence()
-    request = CreateCommentRequest(
-        mod_id=mod_id, author_id=author_id, text=text
-    )
+    request = CreateCommentRequest(mod_id=mod_id, author_id=author_id, text=text)
 
     response = await CreateComment(fake_service, request, ctx)
 
     assert isinstance(response, CreateCommentResponse)
     assert response.comment_id == new_id
 
-    fake_service.create_comment.assert_awaited_once_with(
-        mod_id, author_id, text
-    )
+    fake_service.create_comment.assert_awaited_once_with(mod_id, author_id, text)

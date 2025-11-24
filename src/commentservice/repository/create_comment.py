@@ -3,9 +3,7 @@ from typing import cast
 from asyncpg import Pool
 
 
-async def create_comment(
-    db_pool: Pool, mod_id: int, author_id: int, text: str
-) -> int:
+async def create_comment(db_pool: Pool, mod_id: int, author_id: int, text: str) -> int:
     async with db_pool.acquire() as conn:
         comment_id = await conn.fetchval(
             """

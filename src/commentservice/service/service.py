@@ -1,20 +1,16 @@
 from commentservice.repository.model import Comment
 from commentservice.repository.repository import CommentRepository
-from commentservice.service.create_comment import (
-    create_comment as _create_comment,
-)
-from commentservice.service.set_status import set_status as _set_status
+from commentservice.service.create_comment import create_comment as _create_comment
 from commentservice.service.edit_comment import edit_comment as _edit_comment
 from commentservice.service.get_comments import get_comments as _get_comments
+from commentservice.service.set_status import set_status as _set_status
 
 
 class CommentService:
     def __init__(self, repo: CommentRepository):
         self._repo = repo
 
-    async def create_comment(
-        self, mod_id: int, author_id: int, text: str
-    ) -> int:
+    async def create_comment(self, mod_id: int, author_id: int, text: str) -> int:
         return await _create_comment(self._repo, mod_id, author_id, text)
 
     async def edit_comment(self, comment_id: int, new_text: str) -> bool:
