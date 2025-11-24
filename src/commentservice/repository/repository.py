@@ -1,14 +1,8 @@
 import asyncpg
 
-from commentservice.repository.create_comment import (
-    create_comment as _create_comment,
-)
-from commentservice.repository.edit_comment import (
-    edit_comment as _edit_comment,
-)
-from commentservice.repository.get_comments import (
-    get_comments as _get_comments,
-)
+from commentservice.repository.create_comment import create_comment as _create_comment
+from commentservice.repository.edit_comment import edit_comment as _edit_comment
+from commentservice.repository.get_comments import get_comments as _get_comments
 from commentservice.repository.model import Comment
 from commentservice.repository.set_status import set_status as _set_status
 
