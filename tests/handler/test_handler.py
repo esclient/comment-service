@@ -45,14 +45,15 @@ def _build_edit_pair(
     return request, response
 
 
-def _build_delete_pair(
+def _build_set_status_pair(
     faker: Faker,
-) -> tuple[
-    comment_pb2.DeleteCommentRequest, comment_pb2.DeleteCommentResponse
-]:
+) -> tuple[comment_pb2.SetStatusRequest, comment_pb2.SetStatusResponse]:
     comment_id = faker.random_int(min=1, max=100000)
-    response = comment_pb2.DeleteCommentResponse(success=True)
-    request = comment_pb2.DeleteCommentRequest(comment_id=comment_id)
+    response = comment_pb2.SetStatusResponse(success=True)
+    request = comment_pb2.SetStatusRequest(
+        comment_id=comment_id,
+        status=comment_pb2.CommentStatus.COMMENT_STATUS_DELETED,
+    )
     return request, response
 
 
@@ -89,9 +90,9 @@ CASES: tuple[HandlerCase, ...] = (
         _build_edit_pair,
     ),
     HandlerCase(
-        "DeleteComment",
-        "_delete_comment",
-        _build_delete_pair,
+        "SetStatus",
+        "_set_status",
+        _build_set_status_pair,
     ),
     HandlerCase(
         "GetComments",

@@ -3,9 +3,7 @@ import asyncpg
 from commentservice.repository.create_comment import (
     create_comment as _create_comment,
 )
-from commentservice.repository.delete_comment import (
-    delete_comment as _delete_comment,
-)
+from commentservice.repository.set_status import set_status as _set_status
 from commentservice.repository.edit_comment import (
     edit_comment as _edit_comment,
 )
@@ -30,8 +28,8 @@ class CommentRepository:
     async def edit_comment(self, comment_id: int, new_text: str) -> bool:
         return await _edit_comment(self._db_pool, comment_id, new_text)
 
-    async def delete_comment(self, comment_id: int) -> bool:
-        return await _delete_comment(self._db_pool, comment_id)
+    async def set_status(self, comment_id: int, status: str) -> bool:
+        return await _set_status(self._db_pool, comment_id, status)
 
     async def get_comments(self, mod_id: int) -> list[Comment]:
         return await _get_comments(self._db_pool, mod_id)

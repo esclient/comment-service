@@ -4,9 +4,7 @@ from commentservice.grpc import comment_pb2, comment_pb2_grpc
 from commentservice.handler.create_comment import (
     CreateComment as _create_comment,
 )
-from commentservice.handler.delete_comment import (
-    DeleteComment as _delete_comment,
-)
+from commentservice.handler.set_status import SetStatus as _set_status
 from commentservice.handler.edit_comment import EditComment as _edit_comment
 from commentservice.handler.get_comments import GetComments as _get_comments
 from commentservice.service.service import CommentService
@@ -30,12 +28,12 @@ class CommentHandler(comment_pb2_grpc.CommentServiceServicer):
     ) -> comment_pb2.EditCommentResponse:
         return await _edit_comment(self._service, request, context)
 
-    async def DeleteComment(
+    async def SetStatus(
         self,
-        request: comment_pb2.DeleteCommentRequest,
+        request: comment_pb2.SetStatusRequest,
         context: grpc.ServicerContext,
-    ) -> comment_pb2.DeleteCommentResponse:
-        return await _delete_comment(self._service, request, context)
+    ) -> comment_pb2.SetStatusResponse:
+        return await _set_status(self._service, request, context)
 
     async def GetComments(
         self,
