@@ -9,7 +9,9 @@ from commentservice.service.service import CommentService
 
 
 @pytest.mark.asyncio
-async def test_service_set_status_uses_helper(mocker: MockerFixture, faker: Faker) -> None:
+async def test_service_set_status_uses_helper(
+    mocker: MockerFixture, faker: Faker
+) -> None:
     repo = mocker.Mock(spec=CommentRepository)
     helper = AsyncMock(return_value=True)
     mocker.patch("commentservice.service.service._set_status", helper)

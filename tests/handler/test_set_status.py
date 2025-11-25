@@ -32,7 +32,9 @@ async def test_set_status_success(mocker: MockerFixture, faker: Faker) -> None:
 
 
 @pytest.mark.asyncio
-async def test_set_status_invalid_enum_sets_error(mocker: MockerFixture, faker: Faker) -> None:
+async def test_set_status_invalid_enum_sets_error(
+    mocker: MockerFixture, faker: Faker
+) -> None:
     context = mocker.Mock(spec=grpc.ServicerContext)
     service = mocker.Mock(spec=CommentService)
     service.set_status = AsyncMock()
@@ -51,7 +53,9 @@ async def test_set_status_invalid_enum_sets_error(mocker: MockerFixture, faker: 
 
 
 @pytest.mark.asyncio
-async def test_set_status_internal_error_sets_context(mocker: MockerFixture, faker: Faker) -> None:
+async def test_set_status_internal_error_sets_context(
+    mocker: MockerFixture, faker: Faker
+) -> None:
     context = mocker.Mock(spec=grpc.ServicerContext)
     service = mocker.Mock(spec=CommentService)
     error = RuntimeError(faker.sentence())
@@ -66,4 +70,7 @@ async def test_set_status_internal_error_sets_context(mocker: MockerFixture, fak
 
     assert response.success is False
     context.set_code.assert_called_once_with(grpc.StatusCode.INTERNAL)
-    assert context.set_details.call_args.args[0] == f"Failed to set status: {error!s}"
+    assert (
+        context.set_details.call_args.args[0]
+        == f"Failed to set status: {error!s}"
+    )

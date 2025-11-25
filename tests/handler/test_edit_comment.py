@@ -14,7 +14,9 @@ from commentservice.service.service import CommentService
 
 
 @pytest.mark.asyncio
-async def test_edit_comment_success(mocker: MockerFixture, faker: Faker) -> None:
+async def test_edit_comment_success(
+    mocker: MockerFixture, faker: Faker
+) -> None:
     ctx = mocker.Mock(spec=grpc.ServicerContext)
     fake_service = mocker.Mock(spec=CommentService)
     fake_service.edit_comment = AsyncMock(return_value=True)
@@ -30,7 +32,9 @@ async def test_edit_comment_success(mocker: MockerFixture, faker: Faker) -> None
 
 
 @pytest.mark.asyncio
-async def test_edit_comment_not_found(mocker: MockerFixture, faker: Faker) -> None:
+async def test_edit_comment_not_found(
+    mocker: MockerFixture, faker: Faker
+) -> None:
     ctx = mocker.Mock(spec=grpc.ServicerContext)
     fake_service = mocker.Mock(spec=CommentService)
     fake_service.edit_comment = AsyncMock(return_value=False)

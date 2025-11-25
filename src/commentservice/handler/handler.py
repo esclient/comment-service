@@ -1,7 +1,9 @@
 import grpc
 
 from commentservice.grpc import comment_pb2, comment_pb2_grpc
-from commentservice.handler.create_comment import CreateComment as _create_comment
+from commentservice.handler.create_comment import (
+    CreateComment as _create_comment,
+)
 from commentservice.handler.edit_comment import EditComment as _edit_comment
 from commentservice.handler.get_comments import GetComments as _get_comments
 from commentservice.handler.set_status import SetStatus as _set_status

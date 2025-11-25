@@ -9,7 +9,9 @@ from commentservice.repository.repository import CommentRepository
 
 
 @pytest.mark.asyncio
-async def test_repo_edit_comment_success(mocker: MockerFixture, faker: Faker) -> None:
+async def test_repo_edit_comment_success(
+    mocker: MockerFixture, faker: Faker
+) -> None:
     conn = mocker.Mock()
     conn.fetchval = AsyncMock()
     pool = mocker.Mock()
@@ -31,12 +33,17 @@ async def test_repo_edit_comment_success(mocker: MockerFixture, faker: Faker) ->
             RETURNING id
             """
     actual_sql = conn.fetchval.await_args.args[0]
-    assert textwrap.dedent(actual_sql).strip() == textwrap.dedent(expected_sql).strip()
+    assert (
+        textwrap.dedent(actual_sql).strip()
+        == textwrap.dedent(expected_sql).strip()
+    )
     assert conn.fetchval.await_args.args[1:] == (new_text, cid)
 
 
 @pytest.mark.asyncio
-async def test_repo_edit_comment_not_found(mocker: MockerFixture, faker: Faker) -> None:
+async def test_repo_edit_comment_not_found(
+    mocker: MockerFixture, faker: Faker
+) -> None:
     conn = mocker.Mock()
     conn.fetchval = AsyncMock(return_value=None)
     pool = mocker.Mock()
@@ -57,5 +64,8 @@ async def test_repo_edit_comment_not_found(mocker: MockerFixture, faker: Faker) 
             RETURNING id
             """
     actual_sql = conn.fetchval.await_args.args[0]
-    assert textwrap.dedent(actual_sql).strip() == textwrap.dedent(expected_sql).strip()
+    assert (
+        textwrap.dedent(actual_sql).strip()
+        == textwrap.dedent(expected_sql).strip()
+    )
     assert conn.fetchval.await_args.args[1:] == (new_text, cid)

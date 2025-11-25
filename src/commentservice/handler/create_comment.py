@@ -9,7 +9,9 @@ async def CreateComment(
     request: comment_pb2.CreateCommentRequest,
     _: grpc.ServicerContext,
 ) -> comment_pb2.CreateCommentResponse:
-    id = await service.create_comment(request.mod_id, request.author_id, request.text)
+    id = await service.create_comment(
+        request.mod_id, request.author_id, request.text
+    )
     return comment_pb2.CreateCommentResponse(
         comment_id=id,
     )

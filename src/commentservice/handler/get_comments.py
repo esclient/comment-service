@@ -26,7 +26,9 @@ async def GetComments(
     _: grpc.ServicerContext,
 ) -> comment_pb2.GetCommentsResponse:
     comments = await service.get_comments(mod_id=request.mod_id)
-    return comment_pb2.GetCommentsResponse(mod_id=request.mod_id, comments=convertCommentsToProto(comments))
+    return comment_pb2.GetCommentsResponse(
+        mod_id=request.mod_id, comments=convertCommentsToProto(comments)
+    )
 
 
 def convertCommentToProto(comment: Comment) -> comment_pb2.Comment:
