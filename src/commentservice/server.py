@@ -30,7 +30,8 @@ async def serve() -> None:
 
     server = grpc.aio.server(futures.ThreadPoolExecutor(max_workers=5))
     comment_pb2_grpc.add_CommentServiceServicer_to_server(
-        handler, server
+        handler,
+        server,
     )  # type: ignore[no-untyped-call]
 
     SERVICE_NAMES = (

@@ -1,0 +1,41 @@
+import grpc
+
+from commentservice.constants import (
+    STATUS_DELETED,
+    STATUS_HIDDEN,
+    STATUS_ON_MODERATION,
+)
+from commentservice.grpc import comment_pb2
+from commentservice.grpc.comment_pb2 import CommentStatus
+from commentservice.service.service import CommentService
+
+_ENUM_TO_DB_STATUS_BY_VALUE: dict[int, str] = {
+    CommentStatus.COMMENT_STATUS_DELETED: STATUS_DELETED,
+    CommentStatus.COMMENT_STATUS_HIDDEN: STATUS_HIDDEN,
+    CommentStatus.COMMENT_STATUS_ON_MODERATION: STATUS_ON_MODERATION,
+}
+
+
+def _convert_enum_to_status(status_value: int) -> str:
+    if status_value == CommentStatus.COMMENT_STATUS_UNSPECIFIED:
+        raise ValueError("Status must be specified")
+    return _ENUM_TO_DB_STATUS_BY_VALUE[status_value]
+
+
+async def SetStatus(
+    service: CommentService,
+    request: comment_pb2.SetStatusRequest,
+    context: grpc.ServicerContext,  # noqa: ARG001
+) -> comment_pb2.SetStatusResponse:
+    try:
+        status_str = _convert_enum_to_status(request.status)
+        success = await service.set_status(request.comment_id, status_str)
+        return comment_pb2.SetStatusResponse(success=success)
+    except ValueError as e:
+        context.set_code(grpc.StatusCode.INVALID_ARGUMENT)
+        context.set_details(str(e))
+        return comment_pb2.SetStatusResponse(success=False)
+    except Exception as e:
+        context.set_code(grpc.StatusCode.INTERNAL)
+        context.set_details(f"Failed to set status: {e!s}")
+        return comment_pb2.SetStatusResponse(success=False)
