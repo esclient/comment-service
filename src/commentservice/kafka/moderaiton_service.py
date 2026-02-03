@@ -27,6 +27,7 @@ class ModerationService:
             request = moderation_pb2.ModerateObjectRequest()
             request.id = comment_id
             request.text = comment_text
+            request.type = moderation_pb2.OBJECT_TYPE_COMMENT_TEXT
             
             success = self.producer.send_moderation_request(request)
 

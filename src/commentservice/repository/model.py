@@ -7,5 +7,6 @@ class Comment:
     id: int
     author_id: int
     text: str
+    status: str
     created_at: datetime
     edited_at: datetime | None
