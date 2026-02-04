@@ -1,5 +1,4 @@
 from typing import cast
-
 from asyncpg import Pool
 
 
@@ -15,6 +14,6 @@ async def create_comment(
             """,
             mod_id,
             author_id,
-            text,
+            text
         )
         return cast(int, comment_id)

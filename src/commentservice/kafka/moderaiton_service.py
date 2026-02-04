@@ -1,4 +1,6 @@
 import logging
+import asyncio
+from commentservice.repository.repository import CommentRepository
 from ..kafka.producer import ModerationRequestProducer
 from ..kafka.consumer import ModerationResponseConsumer
 from ..kafka.config import KafkaConfig
@@ -8,11 +10,12 @@ logger = logging.getLogger(__name__)
 
 class ModerationService:
 
-    def __init__(self):
+    def __init__(self, repo: CommentRepository, loop: asyncio.AbstractEventLoop):
         self.config = KafkaConfig()
+        self._repo = repo
+        self._loop = loop
 
         self.producer = ModerationRequestProducer(self.config)
-
         self.consumer = ModerationResponseConsumer(
             self.config,
             callback=self._handle_moderation_response
@@ -57,14 +60,20 @@ class ModerationService:
         except Exception as e:
             logger.error(f"Error handling moderation response: {e}")
     
-    def _update_comment_status(self, comment_id: int, is_flagged: bool):
-        # TODO: Implement database update
-        # Example:
-        # if is_flagged:
-        #     db.update_comment_status(comment_id, status='FLAGGED')
-        # else:
-        #     db.update_comment_status(comment_id, status='APPROVED')
-        logger.debug("Testing")
+    def _update_comment_status(self, comment_id: int, is_flagged: bool) -> None:
+        coroutine = self._repo.update_comment_status(comment_id, is_flagged)
+
+        future = asyncio.run_coroutine_threadsafe(coroutine, self._loop)
+        
+        def _log_result(future: asyncio.Future) -> None:
+            try: 
+                success = future.result()
+                if not success:
+                    logger.error(f"Failed to update comment status: comment_id={comment_id}")
+            except Exception as e:
+                logger.error(f"Error updating comment status: {e}")
+        
+        future.add_done_callback(_log_result)
     
     def shutdown(self):
         self.consumer.stop()

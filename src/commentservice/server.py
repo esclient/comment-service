@@ -26,9 +26,10 @@ async def serve() -> None:
         max_size=10,
     )
 
-    moderation_service = ModerationService()
-
     repo = CommentRepository(db_pool)
+    loop = asyncio.get_running_loop() 
+
+    moderation_service = ModerationService(repo=repo, loop=loop)
     service = CommentService(repo, moderation_service)
     handler = CommentHandler(service)
 
