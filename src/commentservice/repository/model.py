@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime
-
+from commentservice.repository.statuses import CommentStatus
 
 @dataclass
 class Comment:
@@ -9,3 +9,4 @@ class Comment:
     text: str
     created_at: datetime
     edited_at: datetime | None
+    status: CommentStatus
