@@ -2,12 +2,24 @@ import datetime
 
 from google.protobuf import timestamp_pb2 as _timestamp_pb2
 from google.protobuf.internal import containers as _containers
+from google.protobuf.internal import enum_type_wrapper as _enum_type_wrapper
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
 from collections.abc import Iterable as _Iterable, Mapping as _Mapping
 from typing import ClassVar as _ClassVar, Optional as _Optional, Union as _Union
 
 DESCRIPTOR: _descriptor.FileDescriptor
+
+class CommentStatus(int, metaclass=_enum_type_wrapper.EnumTypeWrapper):
+    __slots__ = ()
+    COMMENT_STATUS_UNSPECIFIED: _ClassVar[CommentStatus]
+    COMMENT_STATUS_DELETED: _ClassVar[CommentStatus]
+    COMMENT_STATUS_HIDDEN: _ClassVar[CommentStatus]
+    COMMENT_STATUS_ON_MODERATION: _ClassVar[CommentStatus]
+COMMENT_STATUS_UNSPECIFIED: CommentStatus
+COMMENT_STATUS_DELETED: CommentStatus
+COMMENT_STATUS_HIDDEN: CommentStatus
+COMMENT_STATUS_ON_MODERATION: CommentStatus
 
 class Comment(_message.Message):
     __slots__ = ("id", "author_id", "text", "created_at", "edited_at")
@@ -53,13 +65,15 @@ class GetCommentsResponse(_message.Message):
     comments: _containers.RepeatedCompositeFieldContainer[Comment]
     def __init__(self, mod_id: _Optional[int] = ..., comments: _Optional[_Iterable[_Union[Comment, _Mapping]]] = ...) -> None: ...
 
-class DeleteCommentRequest(_message.Message):
-    __slots__ = ("comment_id",)
+class SetStatusRequest(_message.Message):
+    __slots__ = ("comment_id", "status")
     COMMENT_ID_FIELD_NUMBER: _ClassVar[int]
+    STATUS_FIELD_NUMBER: _ClassVar[int]
     comment_id: int
-    def __init__(self, comment_id: _Optional[int] = ...) -> None: ...
+    status: CommentStatus
+    def __init__(self, comment_id: _Optional[int] = ..., status: _Optional[_Union[CommentStatus, str]] = ...) -> None: ...
 
-class DeleteCommentResponse(_message.Message):
+class SetStatusResponse(_message.Message):
     __slots__ = ("success",)
     SUCCESS_FIELD_NUMBER: _ClassVar[int]
     success: bool

@@ -26,7 +26,8 @@ if _version_not_supported:
 
 
 class CommentServiceStub(object):
-    """Missing associated documentation comment in .proto file."""
+    """Сервис для работы с комментариями: создание, получение, изменение статуса, редактирование
+    """
 
     def __init__(self, channel):
         """Constructor.
@@ -44,10 +45,10 @@ class CommentServiceStub(object):
                 request_serializer=comment__pb2.GetCommentsRequest.SerializeToString,
                 response_deserializer=comment__pb2.GetCommentsResponse.FromString,
                 _registered_method=True)
-        self.DeleteComment = channel.unary_unary(
-                '/comment.CommentService/DeleteComment',
-                request_serializer=comment__pb2.DeleteCommentRequest.SerializeToString,
-                response_deserializer=comment__pb2.DeleteCommentResponse.FromString,
+        self.SetStatus = channel.unary_unary(
+                '/comment.CommentService/SetStatus',
+                request_serializer=comment__pb2.SetStatusRequest.SerializeToString,
+                response_deserializer=comment__pb2.SetStatusResponse.FromString,
                 _registered_method=True)
         self.EditComment = channel.unary_unary(
                 '/comment.CommentService/EditComment',
@@ -57,28 +58,33 @@ class CommentServiceStub(object):
 
 
 class CommentServiceServicer(object):
-    """Missing associated documentation comment in .proto file."""
+    """Сервис для работы с комментариями: создание, получение, изменение статуса, редактирование
+    """
 
     def CreateComment(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Создание комментария
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def GetComments(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Получение комментариев
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def DeleteComment(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+    def SetStatus(self, request, context):
+        """Изменение статуса комментария
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def EditComment(self, request, context):
-        """Missing associated documentation comment in .proto file."""
+        """Редактирование комментария
+        """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
@@ -96,10 +102,10 @@ def add_CommentServiceServicer_to_server(servicer, server):
                     request_deserializer=comment__pb2.GetCommentsRequest.FromString,
                     response_serializer=comment__pb2.GetCommentsResponse.SerializeToString,
             ),
-            'DeleteComment': grpc.unary_unary_rpc_method_handler(
-                    servicer.DeleteComment,
-                    request_deserializer=comment__pb2.DeleteCommentRequest.FromString,
-                    response_serializer=comment__pb2.DeleteCommentResponse.SerializeToString,
+            'SetStatus': grpc.unary_unary_rpc_method_handler(
+                    servicer.SetStatus,
+                    request_deserializer=comment__pb2.SetStatusRequest.FromString,
+                    response_serializer=comment__pb2.SetStatusResponse.SerializeToString,
             ),
             'EditComment': grpc.unary_unary_rpc_method_handler(
                     servicer.EditComment,
@@ -115,7 +121,8 @@ def add_CommentServiceServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class CommentService(object):
-    """Missing associated documentation comment in .proto file."""
+    """Сервис для работы с комментариями: создание, получение, изменение статуса, редактирование
+    """
 
     @staticmethod
     def CreateComment(request,
@@ -172,7 +179,7 @@ class CommentService(object):
             _registered_method=True)
 
     @staticmethod
-    def DeleteComment(request,
+    def SetStatus(request,
             target,
             options=(),
             channel_credentials=None,
@@ -185,9 +192,9 @@ class CommentService(object):
         return grpc.experimental.unary_unary(
             request,
             target,
-            '/comment.CommentService/DeleteComment',
-            comment__pb2.DeleteCommentRequest.SerializeToString,
-            comment__pb2.DeleteCommentResponse.FromString,
+            '/comment.CommentService/SetStatus',
+            comment__pb2.SetStatusRequest.SerializeToString,
+            comment__pb2.SetStatusResponse.FromString,
             options,
             channel_credentials,
             insecure,

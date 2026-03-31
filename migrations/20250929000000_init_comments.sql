@@ -1,10 +1,13 @@
 -- +goose Up
 -- +goose StatementBegin
+CREATE TYPE comment_status AS ENUM ('DELETED', 'HIDDEN', 'ON_MODERATION');
+
 CREATE TABLE IF NOT EXISTS comments (
   id BIGSERIAL PRIMARY KEY,
   mod_id BIGINT NOT NULL,
   author_id BIGINT NOT NULL,
   text TEXT NOT NULL,
+  status comment_status,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   edited_at TIMESTAMPTZ
 );
@@ -15,4 +18,5 @@ CREATE INDEX IF NOT EXISTS idx_comments_mod_id ON comments (mod_id);
 -- +goose Down
 -- +goose StatementBegin
 DROP TABLE IF EXISTS comments;
+DROP TYPE IF EXISTS comment_status;
 -- +goose StatementEnd

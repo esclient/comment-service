@@ -9,16 +9,19 @@ from commentservice.service.service import CommentService
 
 
 @pytest.mark.asyncio
-async def test_service_delete_comment(
+async def test_service_set_status_uses_helper(
     mocker: MockerFixture, faker: Faker
 ) -> None:
-    fake_repo = mocker.Mock(spec=CommentRepository)
-    fake_repo.delete_comment = AsyncMock(return_value=True)
+    repo = mocker.Mock(spec=CommentRepository)
+    helper = AsyncMock(return_value=True)
+    mocker.patch("commentservice.service.service._set_status", helper)
+
+    service = CommentService(repo)
 
     comment_id = faker.random_int(min=1, max=100000)
+    status = "DELETED"
 
-    service = CommentService(fake_repo)
-    result = await service.delete_comment(comment_id=comment_id)
+    result = await service.set_status(comment_id, status)
 
     assert result is True
-    fake_repo.delete_comment.assert_awaited_once_with(comment_id)
+    helper.assert_awaited_once_with(repo, comment_id, status)
