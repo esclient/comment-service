@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:57eeea1d5e7bf9ee1ad0acf79609855f60ee838ccb6d83752803a21ae3fcd7fd"
+content_hash = "sha256:b6dc4c9db030e1429bea9c1b3bdcc2f0149682afcd48470ca80d8e1d0e840b10"
 
 [[metadata.targets]]
 requires_python = "~=3.13"
@@ -672,6 +672,19 @@ files = [
 ]
 
 [[package]]
+name = "pypika"
+version = "0.51.1"
+summary = "A SQL query builder API for Python"
+groups = ["default"]
+dependencies = [
+    "typing-extensions>=4.5.0; python_version < \"3.11\"",
+]
+files = [
+    {file = "pypika-0.51.1-py2.py3-none-any.whl", hash = "sha256:77985b4d7ce71b9905255bf12468cf598349e98837c037541cfc240e528aec46"},
+    {file = "pypika-0.51.1.tar.gz", hash = "sha256:c30c7c1048fbf056fd3920c5a2b88b0c29dd190a9b2bee971fd17e4abe4d0ebe"},
+]
+
+[[package]]
 name = "pytest"
 version = "8.4.2"
 requires_python = ">=3.9"
@@ -816,6 +829,17 @@ groups = ["default"]
 files = [
     {file = "sniffio-1.3.1-py3-none-any.whl", hash = "sha256:2f6da418d1f1e0fddd844478f41680e794e6051915791a034ff65e5f100525a2"},
     {file = "sniffio-1.3.1.tar.gz", hash = "sha256:f4324edc670a0f49750a81b895f35c3adb843cca46f0530f79fc1babb23789dc"},
+]
+
+[[package]]
+name = "types-confluent-kafka"
+version = "1.2.2"
+requires_python = "<4.0,>=3.8"
+summary = ""
+groups = ["dev"]
+files = [
+    {file = "types_confluent_kafka-1.2.2-py3-none-any.whl", hash = "sha256:61dbcf5223d48593ec925f69ce39f63b5ec79902b3f27e496ff0e7bceeba4baf"},
+    {file = "types_confluent_kafka-1.2.2.tar.gz", hash = "sha256:c1e4095ed8bd87b9f2b05f0b766ad0c2ade4e19da7e41c91542c805639d0bbef"},
 ]
 
 [[package]]

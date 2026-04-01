@@ -6,6 +6,7 @@ import pytest
 from faker import Faker
 from pytest_mock import MockerFixture
 
+from commentservice.repository.model import CommentStatus
 from commentservice.repository.repository import CommentRepository
 
 
@@ -20,6 +21,7 @@ async def test_repo_get_comments_maps_rows(
             "text": faker.sentence(),
             "created_at": faker.date_time(tzinfo=UTC),
             "edited_at": None,
+            "status": CommentStatus.ON_MODERATION,
         },
         {
             "id": faker.random_int(),
@@ -27,6 +29,7 @@ async def test_repo_get_comments_maps_rows(
             "text": faker.sentence(),
             "created_at": faker.date_time(tzinfo=UTC),
             "edited_at": faker.date_time(tzinfo=UTC),
+            "status": CommentStatus.APPROVED,
         },
     ]
 
@@ -46,13 +49,14 @@ async def test_repo_get_comments_maps_rows(
     assert len(out) == 2
     assert out[0].id == rows[0]["id"] and out[0].text == rows[0]["text"]
     assert out[0].edited_at is None
+    assert out[0].status == rows[0]["status"]
     assert out[1].id == rows[1]["id"] and out[1].text == rows[1]["text"]
     assert out[1].edited_at is not None
-    expected_sql = """
-            SELECT id, author_id, text, created_at, edited_at
-            FROM comments
-            WHERE mod_id = $1
-            """
+    assert out[1].status == rows[1]["status"]
+    expected_sql = (
+        'SELECT "id","author_id","text","created_at","edited_at","status" '
+        'FROM "comments" WHERE "mod_id"=$1'
+    )
     actual_sql = conn.fetch.await_args.args[0]
     assert (
         textwrap.dedent(actual_sql).strip()

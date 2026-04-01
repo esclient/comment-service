@@ -1,3 +1,5 @@
+from typing import TYPE_CHECKING
+
 from commentservice.repository.model import Comment
 from commentservice.repository.repository import CommentRepository
 from commentservice.service.create_comment import (
@@ -5,21 +7,25 @@ from commentservice.service.create_comment import (
 )
 from commentservice.service.edit_comment import edit_comment as _edit_comment
 from commentservice.service.get_comments import get_comments as _get_comments
-from commentservice.kafka.moderaiton_service import ModerationService
 from commentservice.service.set_status import set_status as _set_status
+
+if TYPE_CHECKING:
+    from commentservice.clients.moderation_service import ModerationService
 
 
 class CommentService:
-    def __init__(self, repo: CommentRepository, moderation_service: ModerationService):
+    def __init__(
+        self, repo: CommentRepository, moderation_service: "ModerationService"
+    ):
         self._repo = repo
         self.moderation_service = moderation_service
 
     async def create_comment(
         self, mod_id: int, author_id: int, text: str
     ) -> int:
-        
+
         comment_id = await _create_comment(self._repo, mod_id, author_id, text)
-        
+
         self.moderation_service.request_moderaiton(comment_id, text)
         return comment_id
 

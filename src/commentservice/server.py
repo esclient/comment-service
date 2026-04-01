@@ -1,18 +1,17 @@
 import asyncio
 import logging
-import signal
 from concurrent import futures
 
 import asyncpg
 import grpc
 from grpc_reflection.v1alpha import reflection
 
+from commentservice.clients.moderation_service import ModerationService
 from commentservice.grpc import comment_pb2, comment_pb2_grpc
 from commentservice.handler.handler import CommentHandler
 from commentservice.repository.repository import CommentRepository
 from commentservice.service.service import CommentService
 from commentservice.settings import Settings
-from commentservice.kafka.moderaiton_service import ModerationService
 
 
 async def serve() -> None:
@@ -27,7 +26,7 @@ async def serve() -> None:
     )
 
     repo = CommentRepository(db_pool)
-    loop = asyncio.get_running_loop() 
+    loop = asyncio.get_running_loop()
 
     moderation_service = ModerationService(repo=repo, loop=loop)
     service = CommentService(repo, moderation_service)

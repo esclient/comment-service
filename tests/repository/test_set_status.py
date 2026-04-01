@@ -12,7 +12,7 @@ async def test_set_status_returns_true_on_update(
     mocker: MockerFixture, faker: Faker
 ) -> None:
     conn = mocker.Mock()
-    conn.execute = mocker.AsyncMock(return_value="UPDATE 1")
+    conn.fetchval = mocker.AsyncMock(return_value=1)
     acquire_cm = mocker.AsyncMock()
     acquire_cm.__aenter__.return_value = conn
     acquire_cm.__aexit__.return_value = None
@@ -25,17 +25,16 @@ async def test_set_status_returns_true_on_update(
     result = await set_status(pool, comment_id, status)
 
     assert result is True
-    expected_sql = """
-        UPDATE comments
-        SET status = $1
-        WHERE id = $2
-        """
-    actual_sql = conn.execute.await_args.args[0]
+    expected_sql = (
+        'UPDATE "comments" SET "status"=$1 '
+        'WHERE "id"=$2 RETURNING "comments"."id"'
+    )
+    actual_sql = conn.fetchval.await_args.args[0]
     assert (
         textwrap.dedent(actual_sql).strip()
         == textwrap.dedent(expected_sql).strip()
     )
-    assert conn.execute.await_args.args[1:] == (status, comment_id)
+    assert conn.fetchval.await_args.args[1:] == (status, comment_id)
 
 
 @pytest.mark.asyncio

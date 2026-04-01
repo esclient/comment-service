@@ -5,7 +5,7 @@ import pytest
 from faker import Faker
 from pytest_mock import MockerFixture
 
-from commentservice.repository.model import Comment
+from commentservice.repository.model import Comment, CommentStatus
 from commentservice.repository.repository import CommentRepository
 from commentservice.service.service import CommentService
 
@@ -15,6 +15,7 @@ async def test_service_get_comments(
     mocker: MockerFixture, faker: Faker
 ) -> None:
     fake_repo = mocker.Mock(spec=CommentRepository)
+    moderation_service = mocker.Mock()
     comments = [
         Comment(
             id=faker.random_int(),
@@ -22,6 +23,7 @@ async def test_service_get_comments(
             text=faker.sentence(),
             created_at=faker.date_time(tzinfo=UTC),
             edited_at=None,
+            status=CommentStatus.ON_MODERATION,
         ),
         Comment(
             id=faker.random_int(),
@@ -29,12 +31,13 @@ async def test_service_get_comments(
             text=faker.sentence(),
             created_at=faker.date_time(tzinfo=UTC),
             edited_at=None,
+            status=CommentStatus.APPROVED,
         ),
     ]
     fake_repo.get_comments = AsyncMock(return_value=comments)
 
     mod_id = faker.random_int(min=1, max=100000)
-    service = CommentService(fake_repo)
+    service = CommentService(fake_repo, moderation_service)
     out = await service.get_comments(mod_id=mod_id)
 
     assert out == comments

@@ -27,18 +27,16 @@ async def GetComments(
 ) -> comment_pb2.GetCommentsResponse:
     comments = await service.get_comments(mod_id=request.mod_id)
     return comment_pb2.GetCommentsResponse(
-        mod_id=request.mod_id, comments=convertCommentsToProto(comments)
+        mod_id=request.mod_id, comments=convert_comments_to_proto(comments)
     )
 
 
-def convertCommentToProto(comment: Comment) -> comment_pb2.Comment:
-    created_at_ts = dt_to_ts(comment.created_at)
-
+def convert_comment_to_proto(comment: Comment) -> comment_pb2.Comment:
     comment_proto = comment_pb2.Comment(
         id=comment.id,
         author_id=comment.author_id,
         text=comment.text,
-        created_at=created_at_ts,
+        created_at=dt_to_ts(comment.created_at),
     )
 
     if comment.edited_at is not None:
@@ -48,7 +46,7 @@ def convertCommentToProto(comment: Comment) -> comment_pb2.Comment:
     return comment_proto
 
 
-def convertCommentsToProto(
+def convert_comments_to_proto(
     comments: list[Comment],
 ) -> list[comment_pb2.Comment]:
-    return [convertCommentToProto(i) for i in comments]
+    return [convert_comment_to_proto(i) for i in comments]

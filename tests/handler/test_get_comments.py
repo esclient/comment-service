@@ -10,7 +10,7 @@ from commentservice.grpc.comment_pb2 import (
     GetCommentsResponse,
 )
 from commentservice.handler.get_comments import GetComments, ts_to_dt
-from commentservice.repository.model import Comment
+from commentservice.repository.model import Comment, CommentStatus
 from commentservice.service.service import CommentService
 
 
@@ -30,6 +30,7 @@ async def test_get_comments_success(
         text=faker.sentence(),
         created_at=earlier,
         edited_at=None,
+        status=CommentStatus.ON_MODERATION,
     )
     comment2 = Comment(
         id=faker.random_int(min=1, max=100000),
@@ -37,6 +38,7 @@ async def test_get_comments_success(
         text=faker.sentence(),
         created_at=now,
         edited_at=now,
+        status=CommentStatus.APPROVED,
     )
     comments = [comment1, comment2]
     fake_service.get_comments.return_value = comments

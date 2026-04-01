@@ -1,6 +1,14 @@
 from dataclasses import dataclass
 from datetime import datetime
-from commentservice.repository.statuses import CommentStatus
+from enum import StrEnum
+
+
+class CommentStatus(StrEnum):
+    DELETED = "DELETED"
+    HIDDEN = "HIDDEN"
+    APPROVED = "APPROVED"
+    ON_MODERATION = "ON_MODERATION"
+
 
 @dataclass
 class Comment:
