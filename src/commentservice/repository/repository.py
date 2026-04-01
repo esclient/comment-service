@@ -11,10 +11,10 @@ from commentservice.repository.get_comments import (
 )
 from commentservice.repository.model import Comment
 from commentservice.repository.set_status import set_status as _set_status
-
 from commentservice.repository.update_comment_status import (
     update_comment_status as _update_comment_status,
 )
+
 
 class CommentRepository:
     def __init__(self, db_pool: asyncpg.Pool):
@@ -37,5 +37,9 @@ class CommentRepository:
     async def get_comments(self, mod_id: int) -> list[Comment]:
         return await _get_comments(self._db_pool, mod_id)
 
-    async def update_comment_status(self, comment_id: int, is_flagged: bool) -> bool:
-        return await _update_comment_status(self._db_pool, comment_id, is_flagged)
+    async def update_comment_status(
+        self, comment_id: int, is_flagged: bool
+    ) -> bool:
+        return await _update_comment_status(
+            self._db_pool, comment_id, is_flagged
+        )

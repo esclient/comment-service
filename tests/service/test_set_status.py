@@ -13,10 +13,11 @@ async def test_service_set_status_uses_helper(
     mocker: MockerFixture, faker: Faker
 ) -> None:
     repo = mocker.Mock(spec=CommentRepository)
+    moderation_service = mocker.Mock()
     helper = AsyncMock(return_value=True)
     mocker.patch("commentservice.service.service._set_status", helper)
 
-    service = CommentService(repo)
+    service = CommentService(repo, moderation_service)
 
     comment_id = faker.random_int(min=1, max=100000)
     status = "DELETED"

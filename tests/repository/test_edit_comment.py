@@ -26,12 +26,10 @@ async def test_repo_edit_comment_success(
     conn.fetchval.return_value = cid
     ok = await repo.edit_comment(comment_id=cid, new_text=new_text)
     assert ok is True
-    expected_sql = """
-            UPDATE comments
-            SET text = $1, edited_at = NOW()
-            WHERE id = $2
-            RETURNING id
-            """
+    expected_sql = (
+        'UPDATE "comments" SET "text"=$1,"edited_at"=NOW() '
+        'WHERE "id"=$2 RETURNING "comments"."id"'
+    )
     actual_sql = conn.fetchval.await_args.args[0]
     assert (
         textwrap.dedent(actual_sql).strip()
@@ -57,12 +55,10 @@ async def test_repo_edit_comment_not_found(
     new_text = faker.sentence()
     ok = await repo.edit_comment(comment_id=cid, new_text=new_text)
     assert ok is False
-    expected_sql = """
-            UPDATE comments
-            SET text = $1, edited_at = NOW()
-            WHERE id = $2
-            RETURNING id
-            """
+    expected_sql = (
+        'UPDATE "comments" SET "text"=$1,"edited_at"=NOW() '
+        'WHERE "id"=$2 RETURNING "comments"."id"'
+    )
     actual_sql = conn.fetchval.await_args.args[0]
     assert (
         textwrap.dedent(actual_sql).strip()

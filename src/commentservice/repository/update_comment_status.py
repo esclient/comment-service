@@ -1,21 +1,30 @@
 from asyncpg import Pool
-from commentservice.repository.statuses import CommentStatus
+from pypika import Parameter, PostgreSQLQuery, Table
 
-async def update_comment_status(db_pool: Pool, comment_id: int, is_flagged: bool) -> bool:
-    if is_flagged:
-        status = CommentStatus.HIDDEN.value
-    else:
-        status = CommentStatus.APPROVED.value
-    
+from commentservice.repository.model import CommentStatus
+
+
+async def update_comment_status(
+    db_pool: Pool, comment_id: int, is_flagged: bool
+) -> bool:
+    comments = Table("comments")
+    status = (
+        CommentStatus.HIDDEN.value
+        if is_flagged
+        else CommentStatus.APPROVED.value
+    )
+
+    query = (
+        PostgreSQLQuery.update(comments)  # type: ignore[operator]
+        .set(comments.status, Parameter("$1"))
+        .where(comments.id == Parameter("$2"))
+        .returning(comments.id)
+    )
+
     async with db_pool.acquire() as conn:
         updated_id = await conn.fetchval(
-            """
-            UPDATE comments
-            SET status = $1::comment_status
-            WHERE id = $2
-            RETURNING id
-            """, 
-            status, 
-            comment_id
+            query.get_sql(),
+            status,
+            comment_id,
         )
         return updated_id is not None

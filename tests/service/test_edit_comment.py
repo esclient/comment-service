@@ -13,12 +13,13 @@ async def test_service_edit_comment(
     mocker: MockerFixture, faker: Faker
 ) -> None:
     fake_repo = mocker.Mock(spec=CommentRepository)
+    moderation_service = mocker.Mock()
     fake_repo.edit_comment = AsyncMock(return_value=True)
 
     comment_id = faker.random_int(min=1, max=100000)
     new_text = faker.sentence()
 
-    service = CommentService(fake_repo)
+    service = CommentService(fake_repo, moderation_service)
     result = await service.edit_comment(
         comment_id=comment_id, new_text=new_text
     )

@@ -32,11 +32,10 @@ async def test_repo_create_comment_returns_id(
 
     assert new_id == comment_id
     assert conn.fetchval.await_count == 1
-    expected_sql = """
-            INSERT INTO comments (mod_id, author_id, text)
-            VALUES ($1, $2, $3)
-            RETURNING id
-            """
+    expected_sql = (
+        'INSERT INTO "comments" ("mod_id","author_id","text") '
+        'VALUES ($1,$2,$3) RETURNING "id"'
+    )
     actual_sql = conn.fetchval.await_args.args[0]
     assert (
         textwrap.dedent(actual_sql).strip()
