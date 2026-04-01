@@ -12,7 +12,8 @@ CREATE TABLE IF NOT EXISTS comments (
   edited_at TIMESTAMPTZ
 );
 
-CREATE INDEX IF NOT EXISTS idx_comments_mod_id ON comments (mod_id);
+CREATE INDEX idx_comments_mod_id ON comments(mod_id);
+CREATE INDEX idx_comments_author_id ON comments(author_id);
 -- +goose StatementEnd
 
 -- +goose Down
